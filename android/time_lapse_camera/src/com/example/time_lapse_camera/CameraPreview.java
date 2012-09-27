@@ -34,49 +34,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         
         
         mCamera = camera;
-        /*
        
-       
-        //I think this is made unnecessary by callback in surfaceChanged
-        
-        mCamera.setPreviewCallback( 
-        		new Camera.PreviewCallback() {
-					
-					@Override
-					public void onPreviewFrame(byte[] data, Camera camera)  {
-						Log.d(TAG,"yo it's a preview");
-						int previewFormat = camera.getParameters().getPreviewFormat();
-		    	    	if (previewFormat == android.graphics.ImageFormat.NV21) {
-		    	    		Camera.Size previewSize = camera.getParameters().getPreviewSize();
-		    	    		Rect previewRect = new Rect(0, 0, previewSize.width, previewSize.height);
-		    	    		YuvImage yuvImage = new YuvImage(data, previewFormat, previewSize.width, previewSize.height, null);
-		    	    		
-		    	    		File saveFile = getOutputMediaFile( MEDIA_TYPE_IMAGE );
-		    	    		OutputStream outToFile = null;
-		    	    		try {
-		    	    			outToFile = new BufferedOutputStream( new FileOutputStream( saveFile) );
-		    	    			yuvImage.compressToJpeg(previewRect, 60, outToFile);
-		    	    		
-		    	    		} catch(FileNotFoundException e) {
-		    	    			Log.d(TAG,"File wasn't created properly: "+e.getMessage());
-		    	    		}finally {
-		    	    			if(outToFile != null) {
-		    	    				try{
-		    	    					outToFile.close();
-		    	    				} catch (IOException e) {
-		    	    					Log.d(TAG,"File did not close");
-		    	    				}
-		    	    				
-		    	    		
-				    	    	} else {
-				    	    		Log.d(TAG, "Preview Image is in wrong format");
-				    	    	}
-		    	    		}
-		    	    	}
-					}
-				});
-        */
-        
         
     }
     public void init(){
@@ -158,7 +116,8 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
             mCamera.startPreview();
            
             //We have to set the callback where the Preview is started. because... 
-            /*mCamera.setPreviewCallback( 
+            
+            mCamera.setPreviewCallback( 
             		new Camera.PreviewCallback() {
             			
     					@Override
@@ -182,6 +141,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     		    	    			if(outToFile != null) {
     		    	    				try{
     		    	    					outToFile.close();
+    		    	    					Log.d(TAG,"Took a picture!");
     		    	    				} catch (IOException e) {
     		    	    					Log.d(TAG,"File did not close");
     		    	    				}
@@ -193,8 +153,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     		    	    		}
     		    	    	}
     					}
-    				});
-*/            	 
+    				});            	 
 
         } catch (Exception e){
             Log.d(TAG, "Error starting camera preview: " + e.getMessage());

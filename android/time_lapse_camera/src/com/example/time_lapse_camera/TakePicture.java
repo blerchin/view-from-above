@@ -8,21 +8,22 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
-import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.util.Log;
 import android.view.Menu;
-import android.view.SurfaceHolder;
-import android.view.View;
-import android.view.WindowManager;
+import android.widget.Toast;
 
 public class TakePicture extends Activity{
 	
@@ -30,6 +31,9 @@ public class TakePicture extends Activity{
     public static final int MEDIA_TYPE_IMAGE = 1;
     public static final int MEDIA_TYPE_VIDEO = 2;
 	private Context context = this;
+	
+	private TimeLapsePictureTaker mBoundPictureTaker;
+	private Boolean mPTBound;
 	
 	private static Camera mCamera;
     private CameraPreview mPreview;
@@ -40,10 +44,17 @@ public class TakePicture extends Activity{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
+        doBindPTService();
+        
+        /// Pretty much everything here has been moved to the TimeLapsePictureTaker service.       
+ /* 
         //pm = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
         //WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyWakeLock");
         mCamera = getCameraInstance();
         CameraPreview cp = new CameraPreview(context,mCamera);
+        
+        //Gnarly hack thanks to http://stackoverflow.com/questions/2386025/android-camera-without-preview
+        //Allows camera to be run as a persistent service even when screen is off (!!!)
         
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         WindowManager.LayoutParams params = new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT,
@@ -61,6 +72,11 @@ public class TakePicture extends Activity{
         
         
         try {
+        	List<Camera.Size> previewSize = mCamera.getParameters().getSupportedPreviewSizes();
+        	Camera.Size maxPreviewSize = previewSize.get(previewSize.size() - 1);
+        	Log.d(TAG,"preview size set to "+maxPreviewSize.width+" x "+maxPreviewSize.height);		
+        	
+        	mCamera.getParameters().setPreviewSize(maxPreviewSize.width, maxPreviewSize.height);
             mCamera.setPreviewDisplay(mHolder);
             mCamera.startPreview();
             
@@ -71,8 +87,8 @@ public class TakePicture extends Activity{
         }
         mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         mHolder.setFormat(PixelFormat.TRANSPARENT);
-        //cp.setVisibility(View.INVISIBLE);
-        
+        */
+
         //setContentView(R.layout.activity_take_picture);
 
         // Create an instance of Camera
@@ -133,8 +149,62 @@ public class TakePicture extends Activity{
         return true;
     }
     
+    public void onDestroy() {
+    	super.onDestroy();
+    	doUnbindPTService();
+    	
+    }
+    
     
    
+    private ServiceConnection mPTConnection = new ServiceConnection() {
+        public void onServiceConnected(ComponentName className, IBinder service) {
+            // This is called when the connection with the service has been
+            // established, giving us the service object we can use to
+            // interact with the service.  Because we have bound to a explicit
+            // service that we know is running in our own process, we can
+            // cast its IBinder to a concrete class and directly access it.
+            mBoundPictureTaker = ((TimeLapsePictureTaker.LocalBinder)service).getService();
+
+            // Tell the user about this for our demo.
+            Toast.makeText(context, R.string.picture_taker_service_connected,
+                    Toast.LENGTH_SHORT).show();
+        }
+
+        public void onServiceDisconnected(ComponentName className) {
+            // This is called when the connection with the service has been
+            // unexpectedly disconnected -- that is, its process crashed.
+            // Because it is running in our same process, we should never
+            // see this happen.
+            mBoundPictureTaker = null;
+            Toast.makeText(context, R.string.picture_taker_service_disconnected,
+                    Toast.LENGTH_SHORT).show();
+        }
+    };
+    
+    void doBindPTService() {
+        // Establish a connection with the service.  We use an explicit
+        // class name because we want a specific service implementation that
+        // we know will be running in our own process (and thus won't be
+        // supporting component replacement by other applications).
+    	Log.d(TAG,"doBindPTService called");
+        bindService(new Intent(context, 
+                TimeLapsePictureTaker.class), mPTConnection, Context.BIND_AUTO_CREATE);
+        mPTBound = true;
+        Log.d(TAG,"PT Service Bound");
+    }
+    
+    void doUnbindPTService() {
+        if (mPTBound) {
+            // Detach our existing connection.
+            unbindService(mPTConnection);
+            mPTBound = false;
+        }
+    }
+    
+    
+    
+    
 
     /** Check if this device has a camera */
     private boolean checkCameraHardware(Context context) {
