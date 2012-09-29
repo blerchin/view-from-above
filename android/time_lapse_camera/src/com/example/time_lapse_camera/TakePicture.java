@@ -30,13 +30,11 @@ public class TakePicture extends Activity{
 	private static final String TAG = "TakePicture";
     public static final int MEDIA_TYPE_IMAGE = 1;
     public static final int MEDIA_TYPE_VIDEO = 2;
-	private Context context = this;
+	Context context = this;
 	
 	private TimeLapsePictureTaker mBoundPictureTaker;
 	private Boolean mPTBound;
 	
-	private static Camera mCamera;
-    private CameraPreview mPreview;
     PowerManager pm;
     WakeLock wl;
 
@@ -44,102 +42,8 @@ public class TakePicture extends Activity{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
+        setContentView(R.layout.activity_take_picture);
         doBindPTService();
-        
-        /// Pretty much everything here has been moved to the TimeLapsePictureTaker service.       
- /* 
-        //pm = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
-        //WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyWakeLock");
-        mCamera = getCameraInstance();
-        CameraPreview cp = new CameraPreview(context,mCamera);
-        
-        //Gnarly hack thanks to http://stackoverflow.com/questions/2386025/android-camera-without-preview
-        //Allows camera to be run as a persistent service even when screen is off (!!!)
-        
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        WindowManager.LayoutParams params = new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT,
-                    WindowManager.LayoutParams.WRAP_CONTENT,
-                    WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY,
-                    WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
-                    PixelFormat.TRANSLUCENT);        
-       Log.d(TAG,"WindowManager created");
-        wm.addView(cp, params);
-        Log.d(TAG,"View Added");
-        cp.init();
-        SurfaceHolder mHolder = cp.getHolder();
-        
-        // deprecated setting, but required on Android versions prior to 3.0
-        
-        
-        try {
-        	List<Camera.Size> previewSize = mCamera.getParameters().getSupportedPreviewSizes();
-        	Camera.Size maxPreviewSize = previewSize.get(previewSize.size() - 1);
-        	Log.d(TAG,"preview size set to "+maxPreviewSize.width+" x "+maxPreviewSize.height);		
-        	
-        	mCamera.getParameters().setPreviewSize(maxPreviewSize.width, maxPreviewSize.height);
-            mCamera.setPreviewDisplay(mHolder);
-            mCamera.startPreview();
-            
-            
-            
-        } catch (IOException e) {
-            Log.d(TAG, "Error setting camera preview: " + e.getMessage());
-        }
-        mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-        mHolder.setFormat(PixelFormat.TRANSPARENT);
-        */
-
-        //setContentView(R.layout.activity_take_picture);
-
-        // Create an instance of Camera
-        
-        //cp.setZOrderOnTop(true);
-/*
-        try{
-        	mCamera.setPreviewDisplay(cp.getHolder());
-        	mCamera.startPreview();
-        } catch(Exception e) {
-        	Log.d(TAG,"something went wrong while starting Preview");
-        }
-  */      
-        
-        // Create our Preview view and set it as the content of our activity.
-        //mPreview = new CameraPreview(this, mCamera);
-        //FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
-        //preview.addView(mPreview);
-        
-        /*
-        Camera.Parameters camParams = mCamera.getParameters();
-        
-        Log.d(TAG,"previewByteSize about to get set");
-        int previewPixels = camParams.getPreviewSize().width * camParams.getPreviewSize().height;
-        int previewByteSize = previewPixels * android.graphics.ImageFormat.getBitsPerPixel( 
-        						camParams.getPreviewFormat() ) / 8;
-        Log.d(TAG,"previewByteSize = "+previewByteSize);
-        byte[] previewCallbackBuffer = new byte[previewByteSize+1];
-        try{
-        	mCamera.addCallbackBuffer(previewCallbackBuffer);
-        } catch(Exception e) {
-        	Log.d(TAG,"Callback buffer is fucked");
-        }
-      */
-        	
-        	
-        
-        
-        // Add a listener to the Capture button
-        /*
-        Button captureButton = (Button) findViewById(R.id.button_capture);
-        captureButton.setOnClickListener(
-            new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // get an image from the camera
-                    mCamera.takePicture(null, null, mPicture);
-                }
-            }
-        );
-         */
         
     }
     
@@ -152,7 +56,6 @@ public class TakePicture extends Activity{
     public void onDestroy() {
     	super.onDestroy();
     	doUnbindPTService();
-    	
     }
     
     
@@ -177,6 +80,7 @@ public class TakePicture extends Activity{
             // Because it is running in our same process, we should never
             // see this happen.
             mBoundPictureTaker = null;
+            Log.d(TAG,"TimeLapsePictureTaker service disconnected due to crash");
             Toast.makeText(context, R.string.picture_taker_service_disconnected,
                     Toast.LENGTH_SHORT).show();
         }
@@ -281,7 +185,6 @@ public class TakePicture extends Activity{
 
     public void onPause(){
     	super.onPause();
-    	//wl.release();	
     
     }
     

@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -13,6 +14,8 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.hardware.Camera;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -27,6 +30,13 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 	
     private SurfaceHolder mHolder;
     private Camera mCamera;
+    
+    private int picturesBatched;
+    private URI[] picturesToBatch;
+    private int BATCH_SIZE = 10;
+    
+    public int picturesTaken;
+    public boolean crashFlag = false; 
 
     public CameraPreview(Context context, Camera camera) {
         super(context);
@@ -43,12 +53,15 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         // underlying surface is created and destroyed.
     	mHolder = getHolder();
     	mHolder.addCallback(this);
+    	picturesTaken = 0;
+    	picturesToBatch = new URI[BATCH_SIZE];
+    	picturesBatched = 0;
     	
     
     }
     
     /** Create a File for saving an image or video */
-    private static File getOutputMediaFile(int type){
+    private static File getOutputMediaFile(int type) throws IOException {
         // To be safe, you should check that the SDCard is mounted
         // using Environment.getExternalStorageState() before doing this.
 
@@ -60,8 +73,8 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         // Create the storage directory if it does not exist
         if (! mediaStorageDir.exists()){
             if (! mediaStorageDir.mkdirs()){
-                Log.d("MyCameraApp", "failed to create directory");
-                return null;
+                Log.d(TAG, "failed to create directory");
+                throw (IOException) new IOException().initCause(new Throwable( "cannot access storage device."));
             }
         }
 
@@ -80,15 +93,27 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
         return mediaFile;
     }
+    /** Create a file Uri for saving an image or video */
+    private static URI getFileURI(File outputFile ){
+          return outputFile.toURI();
+    }
 
     public void surfaceCreated(SurfaceHolder holder) {
         Log.d(TAG,"surfaceCreated() called");
     	// The Surface has been created, now tell the camera where to draw the preview.
-        
+        try{
+        	mCamera.setPreviewDisplay(mHolder);
+        	mCamera.startPreview();
+        } catch (IOException e){
+        	Log.d(TAG, "camera preview was not attached to mHolder");
+        }
+        setPreviewCallback();
+       
     }
 
     public void surfaceDestroyed(SurfaceHolder holder) {
-        // empty. Take care of releasing the Camera preview in your activity.
+        
+        
     }
 
     public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
@@ -99,11 +124,12 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
           // preview surface does not exist
           return;
         }
-
+        
         // stop preview before making changes
         try {
-            mCamera.stopPreview();
+            //mCamera.stopPreview();
         } catch (Exception e){
+        	
           // ignore: tried to stop a non-existent preview
         }
 
@@ -111,52 +137,95 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         // reformatting changes here
 
         // start preview with new settings
-        try {
-            mCamera.setPreviewDisplay(mHolder);
-            mCamera.startPreview();
-           
-            //We have to set the callback where the Preview is started. because... 
-            
-            mCamera.setPreviewCallback( 
-            		new Camera.PreviewCallback() {
-            			
-    					@Override
-    					public void onPreviewFrame(byte[] data, Camera camera)  {
-    						
-    						int previewFormat = camera.getParameters().getPreviewFormat();
-    		    	    	if (previewFormat == android.graphics.ImageFormat.NV21) {
-    		    	    		Camera.Size previewSize = camera.getParameters().getPreviewSize();
-    		    	    		Rect previewRect = new Rect(0, 0, previewSize.width, previewSize.height);
-    		    	    		YuvImage yuvImage = new YuvImage(data, previewFormat, previewSize.width, previewSize.height, null);
-    		    	    		
-    		    	    		File saveFile = getOutputMediaFile( MEDIA_TYPE_IMAGE );
-    		    	    		OutputStream outToFile = null;
-    		    	    		try {
-    		    	    			outToFile = new BufferedOutputStream( new FileOutputStream( saveFile) );
-    		    	    			yuvImage.compressToJpeg(previewRect, 60, outToFile);
-    		    	    		
-    		    	    		} catch(FileNotFoundException e) {
-    		    	    			Log.d(TAG,"File wasn't created properly: "+e.getMessage());
-    		    	    		}finally {
-    		    	    			if(outToFile != null) {
-    		    	    				try{
-    		    	    					outToFile.close();
-    		    	    					Log.d(TAG,"Took a picture!");
-    		    	    				} catch (IOException e) {
-    		    	    					Log.d(TAG,"File did not close");
-    		    	    				}
-    		    	    				
-    		    	    		
-    				    	    	} else {
-    				    	    		Log.d(TAG, "Preview Image is in wrong format");
-    				    	    	}
-    		    	    		}
-    		    	    	}
-    					}
-    				});            	 
-
-        } catch (Exception e){
-            Log.d(TAG, "Error starting camera preview: " + e.getMessage());
-        }
+        
     }
+    
+   public void setPreviewCallback(){
+	   try {
+           
+           //We have to set the callback where the Preview is started 
+           
+           mCamera.setPreviewCallback( 
+           		new Camera.PreviewCallback() {
+           			
+   					@Override
+   					public void onPreviewFrame(byte[] data, Camera camera)  {
+   						int fileFailCounter = 0;
+   						Log.d(TAG,"onPreviewFrame called; data length: "+data.length);
+   						
+   						
+   						int previewFormat = camera.getParameters().getPreviewFormat();
+   		    	    	if (previewFormat == android.graphics.ImageFormat.NV21) {
+   		    	    		Camera.Size previewSize = camera.getParameters().getPreviewSize();
+   		    	    		Rect previewRect = new Rect(0, 0, previewSize.width, previewSize.height);
+   		    	    		YuvImage yuvImage = new YuvImage(data, previewFormat, previewSize.width, previewSize.height, null);
+   		    	    		Log.d(TAG,"yuvImage saved");
+   		    	    		File saveFile = null;
+   		    	    		try{
+	    		    	    		saveFile = getOutputMediaFile( MEDIA_TYPE_IMAGE );
+	    		    	    		
+	    		    	    		fileFailCounter=0;
+	    		    	    		
+   		    	    		} catch(IOException e) {
+   		    	    			Log.d(TAG,"Couldn't create media file");
+   		    	    			
+   		    	    		} finally {
+	    		    	    		OutputStream outToFile = null;
+	    		    	    		AsyncTask batchUpload = null;
+	    		    	    		try {
+	    		    	    			outToFile = new BufferedOutputStream( new FileOutputStream( saveFile), 8192 );
+	    		    	    			yuvImage.compressToJpeg(previewRect, 60, outToFile);
+	    		    	    		
+	    		    	    		} catch(FileNotFoundException e) {
+	    		    	    			Log.d(TAG,"File wasn't created properly: "+e.getMessage());
+	    		    	    		}finally {
+	    		    	    			if(outToFile != null) {
+	    		    	    				try{
+	    		    	    					outToFile.close();
+	    		    	    					Log.d(TAG,"Took a picture!");
+	    		    	    					
+	    		    	    					if( picturesBatched < BATCH_SIZE) {
+	    		    	    						picturesToBatch[picturesBatched] = getFileURI(saveFile);
+	    		    	    						picturesBatched++;
+	    		    	    					}else if ( picturesBatched >= BATCH_SIZE ) {
+	    		    	    						
+	    		    	    						batchUpload = new BatchToFTP().execute(picturesToBatch.clone() );
+	    		    	    						//It's OK if we lose a batch sometimes
+	    		    	    						picturesToBatch[0] = getFileURI(saveFile);
+	    		    	    						picturesBatched = 1;
+	    		    	    					}
+	    		    	    				
+	    		    	    					
+	    		    	    					
+	    		    	    					if (batchUpload != null  
+	    		    	    						&& batchUpload.getStatus() == AsyncTask.Status.FINISHED 
+	    		    	    						&& batchUpload.get() == Long.valueOf(1) ) {
+		    		    	    					Log.d(TAG,"upload successful!");
+	    		    	    					} else if (batchUpload != null) {
+	    		    	    						Log.d(TAG,"upload status: "+ batchUpload.getStatus() );
+	    		    	    					}
+	    		    	    				} catch (IOException e) {
+	    		    	    					Log.d(TAG,"File did not close");
+	    		    	    				} catch (Exception e) {
+	    		    	    					Log.d(TAG,"something went wrong, probably while checking on FTP upload: "+e.getMessage());
+	    		    	    				}
+	    		    	    				
+	    		    	    		
+	    				    	    	} else {
+	    				    	    		fileFailCounter++;
+	        		    	    			if(fileFailCounter > 21) {
+	        		    	    				crashFlag = true;
+	        		    	    			}
+	    				    	    		Log.d(TAG, "Preview Image is in wrong format");
+	    				    	    	}
+	    		    	    		}
+   		    	    		}
+   		    	    	}
+   					}
+   				});            	 
+
+       } catch (Exception e){
+           Log.d(TAG, "Error starting camera preview: " + e.getMessage());
+   }
+  }
 }

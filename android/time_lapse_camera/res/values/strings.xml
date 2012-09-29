@@ -6,7 +6,11 @@
     <string name="title_activity_take_picture">TakePicture</string>
     <string name="picture_taker_service_connected">Picture Taker Service Connected</string>
     <string name="picture_taker_service_disconnected">Picture Taker Service Disconnected</string>
-    <string name="picture_taker_started">Picture Taker Started</string>
+    <string name="picture_taker_started">3.2.1.ACTION!</string>
     <string name="picture_taker_stopped">Picture Taker Stopped</string>
+    <string name="button_stop_label">Stop Capture</string>
+    <string name="ftp_upload_loc">mhzmaster.com/view_from_above_images</string>
+    <string name="ftp_upload_user">view_from_above</string>
+    <string name="ftp_upload_pass">avast-spoon-candid</string>
 
 </resources>
