@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Extracts string &apos;Stop Capture&apos; into R.string.button_stop_label" description="Extracts string &apos;Stop Capture&apos; into R.string.button_stop_label" file="/time_lapse_camera/res/layout/activity_take_picture.xml" flags="6" id="com.android.ide.eclipse.adt.refactoring.extract.string" mode="EDIT_SOURCE" proj="/time_lapse_camera" rplc-all-java="false" rplc-all-xml="false" sel-end="620" sel-start="594" stamp="1348817793904" tok-esc="Stop Capture" xml-attr-name="android:text"/>
+</session>

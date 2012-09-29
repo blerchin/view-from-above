@@ -1,0 +1,44 @@
+package com.example.time_lapse_camera;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLConnection;
+
+import android.os.AsyncTask;
+
+public class BatchToFTP extends AsyncTask<URI[], Void, Boolean> {
+
+	private String destRoot;
+	private URLConnection ftpConnection;
+	
+	protected Boolean doInBackground(URI[] pictureUris ) {
+		int count = pictureUris.length;
+		
+		try{
+			destRoot = "ftp://"+R.string.ftp_upload_user+":"+R.string.ftp_upload_pass+"@"+R.string.ftp_upload_loc;
+		} catch (MalformedURLException e){
+			return false;
+		}
+		
+		try {
+			
+			for ( URI p : pictureUris){
+				File jpeg = File(p);
+				
+				ftpConnection.setDoOutput(true);
+				URL ftpOut = new URL( destRoot + jpeg.getName())
+				ftpConnection = destURL.openConnection();
+				FileInputStream fileToSend =  new FileInputStream( new File(p) );
+				
+			}
+			
+		}
+		
+		return true;
+	}
+
+}

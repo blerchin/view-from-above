@@ -1,0 +1,49 @@
+package com.example.time_lapse_camera;
+
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLConnection;
+
+import android.os.AsyncTask;
+
+public class BatchToFTP extends AsyncTask<URI, Void, Boolean> {
+
+	private String destRoot;
+	private URLConnection ftpConnection;
+	
+	protected Boolean doInBackground(URI ... pictureUris ) {
+		
+			destRoot = "ftp://"+R.string.ftp_upload_user+":"+R.string.ftp_upload_pass+"@"+R.string.ftp_upload_loc;
+		
+		for ( URI p : pictureUris){
+			try {
+			
+				File jpeg = new File(p);
+				
+				URL urlOut = new URL( destRoot + jpeg.getName());
+				
+				ftpConnection.setDoOutput(true);
+				ftpConnection = urlOut.openConnection();
+				BufferedOutputStream outStream = new BufferedOutputStream( ftpConnection.getOutputStream() );
+				
+				FileInputStream inStream =  new FileInputStream( new File(p) );
+				byte[] buff = new byte[32*1024];
+				int len;
+				while ((len = inStream.read(buff)) > 0)
+				      outStream.write(buff, 0, len);
+				outStream.close();
+				inStream.close();
+				
+			} catch (Exception e){
+				return false;
+			}
+		
+
+		}
+		return true;
+
+	}
+}

@@ -1,0 +1,13 @@
+<resources>
+
+    <string name="app_name">time_lapse_camera</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_take_picture">TakePicture</string>
+    <string name="picture_taker_service_connected">Picture Taker Service Connected</string>
+    <string name="picture_taker_service_disconnected">Picture Taker Service Disconnected</string>
+    <string name="picture_taker_started">Picture Taker Started</string>
+    <string name="picture_taker_stopped">Picture Taker Stopped</string>
+    <string name="button_stop_text">Stop Capture</string>
+
+</resources>
