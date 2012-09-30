@@ -13,18 +13,19 @@
 		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="Uri" key="selection"/>
+		<item value="put" key="selection"/>
 		<list key="findhistory">
+			<item value="conne"/>
+			<item value="put"/>
+			<item value="gettext"/>
+			<item value="picturesToBatch.length"/>
+			<item value="10"/>
 			<item value="uri"/>
 			<item value="foreground"/>
 			<item value="cp"/>
-			<item value="issue while"/>
-			<item value="issu"/>
-			<item value="issue while init"/>
-			<item value="mNM"/>
-			<item value="mcamera"/>
 		</list>
 		<list key="replacehistory">
+			<item value="BATCH_SIZE"/>
 		</list>
 	</section>
 </section>

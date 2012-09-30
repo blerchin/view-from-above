@@ -33,7 +33,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     
     private int picturesBatched;
     private URI[] picturesToBatch;
-    private int BATCH_SIZE = 10;
+    private int BATCH_SIZE = 30;
     
     public int picturesTaken;
     public boolean crashFlag = false; 

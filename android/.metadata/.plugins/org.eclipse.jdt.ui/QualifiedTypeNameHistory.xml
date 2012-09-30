@@ -35,4 +35,6 @@
 <fullyQualifiedTypeName name="org.apache.commons.logging.Log"/>
 <fullyQualifiedTypeName name="android.os.AsyncTask"/>
 <fullyQualifiedTypeName name="android.os.AsyncTask.Status"/>
+<fullyQualifiedTypeName name="org.apache.commons.net.ftp.FTP"/>
+<fullyQualifiedTypeName name="android.os.SystemClock"/>
 </qualifiedTypeNameHistroy>
