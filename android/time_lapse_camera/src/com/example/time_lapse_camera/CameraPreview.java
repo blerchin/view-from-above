@@ -9,12 +9,13 @@ import java.io.OutputStream;
 import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.hardware.Camera;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
@@ -33,7 +34,10 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     
     private int picturesBatched;
     private URI[] picturesToBatch;
+    private String[] pictureDates;
+    private String[] pictureURIsAsStrings;
     private int BATCH_SIZE = 30;
+    
     
     public int picturesTaken;
     public boolean crashFlag = false; 
@@ -55,13 +59,14 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     	mHolder.addCallback(this);
     	picturesTaken = 0;
     	picturesToBatch = new URI[BATCH_SIZE];
+    	
     	picturesBatched = 0;
     	
     
     }
     
     /** Create a File for saving an image or video */
-    private static File getOutputMediaFile(int type) throws IOException {
+    private static File getOutputMediaFile(int type, String timeStamp) throws IOException {
         // To be safe, you should check that the SDCard is mounted
         // using Environment.getExternalStorageState() before doing this.
 
@@ -79,7 +84,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         }
 
         // Create a media file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        
         File mediaFile;
         if (type == MEDIA_TYPE_IMAGE){
             mediaFile = new File(mediaStorageDir.getPath() + File.separator +
@@ -92,6 +97,10 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         }
 
         return mediaFile;
+    }
+    
+    private static String getTimeStamp(Date date){
+    	return new SimpleDateFormat("yyyyMMdd_HHmmss").format( date );
     }
     /** Create a file Uri for saving an image or video */
     private static URI getFileURI(File outputFile ){
@@ -161,8 +170,10 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
    		    	    		YuvImage yuvImage = new YuvImage(data, previewFormat, previewSize.width, previewSize.height, null);
    		    	    		Log.d(TAG,"yuvImage saved");
    		    	    		File saveFile = null;
+   		    	    		Date mDate = new Date();
    		    	    		try{
-	    		    	    		saveFile = getOutputMediaFile( MEDIA_TYPE_IMAGE );
+   		    	    				 
+	    		    	    		saveFile = getOutputMediaFile( MEDIA_TYPE_IMAGE, getTimeStamp(mDate) );
 	    		    	    		
 	    		    	    		fileFailCounter=0;
 	    		    	    		
@@ -174,7 +185,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 	    		    	    		AsyncTask batchUpload = null;
 	    		    	    		try {
 	    		    	    			outToFile = new BufferedOutputStream( new FileOutputStream( saveFile), 8192 );
-	    		    	    			yuvImage.compressToJpeg(previewRect, 60, outToFile);
+	    		    	    			yuvImage.compressToJpeg(previewRect, 20, outToFile);
 	    		    	    		
 	    		    	    		} catch(FileNotFoundException e) {
 	    		    	    			Log.d(TAG,"File wasn't created properly: "+e.getMessage());
@@ -186,10 +197,14 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 	    		    	    					
 	    		    	    					if( picturesBatched < BATCH_SIZE) {
 	    		    	    						picturesToBatch[picturesBatched] = getFileURI(saveFile);
+	    		    	    						//pictureDates[picturesBatched] = mDate.toLocaleString();
+	    		    	    						//pictureURIsAsStrings[picturesBatched] = getFileURI(saveFile).toString(); 
 	    		    	    						picturesBatched++;
 	    		    	    					}else if ( picturesBatched >= BATCH_SIZE ) {
 	    		    	    						
-	    		    	    						batchUpload = new BatchToFTP().execute(picturesToBatch.clone() );
+	    		    	    						//batchUpload = new BatchToFTP().execute(picturesToBatch.clone() );
+	    		    	    						
+	    		    	    						batchUpload = new BatchToHTTP().execute( picturesToBatch  );
 	    		    	    						//It's OK if we lose a batch sometimes
 	    		    	    						picturesToBatch[0] = getFileURI(saveFile);
 	    		    	    						picturesBatched = 1;
