@@ -4931,3 +4931,16 @@ java.io.IOException: Output Stream is closed
 	at com.android.ddmlib.Log.e(Log.java:230)
 	at com.android.ddmuilib.logcat.LogCatReceiver$1.run(LogCatReceiver.java:117)
 	at java.lang.Thread.run(Thread.java:680)
+!SESSION 2012-10-02 00:05:42.099 -----------------------------------------------
+eclipse.buildId=M20110909-1335
+java.version=1.6.0_35
+java.vendor=Apple Inc.
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product -keyring /Users/blerchin/.eclipse_keyring -showlocation
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.java.product -keyring /Users/blerchin/.eclipse_keyring -showlocation
+
+!ENTRY org.eclipse.core.net 1 0 2012-10-02 00:05:49.191
+!MESSAGE System property http.nonProxyHosts has been set to local|*.local|169.254/16|*.169.254/16 by an external source. This value will be overwritten using the values from the preferences
+
+!ENTRY org.eclipse.m2e.logback.appender 4 0 2012-10-02 00:06:35.695
+!MESSAGE Unable to update index for central|http://repo1.maven.org/maven2

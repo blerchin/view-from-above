@@ -7,5 +7,6 @@ loop do
   socket.bind(sockaddr)
   
   socket.listen(5)
+  puts s
   socket.close
 end

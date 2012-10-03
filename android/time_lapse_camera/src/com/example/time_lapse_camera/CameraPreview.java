@@ -7,10 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import android.content.Context;
 import android.graphics.Rect;
@@ -34,9 +31,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     
     private int picturesBatched;
     private URI[] picturesToBatch;
-    private String[] pictureDates;
-    private String[] pictureURIsAsStrings;
-    private int BATCH_SIZE = 30;
+    private int BATCH_SIZE = 20;
     
     
     public int picturesTaken;
@@ -100,7 +95,8 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     }
     
     private static String getTimeStamp(Date date){
-    	return new SimpleDateFormat("yyyyMMdd_HHmmss").format( date );
+    	//return new SimpleDateFormat("yyyyMMdd_HHmmss").format( date );
+    	return String.valueOf( new Date().getTime() );
     }
     /** Create a file Uri for saving an image or video */
     private static URI getFileURI(File outputFile ){
@@ -185,7 +181,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 	    		    	    		AsyncTask batchUpload = null;
 	    		    	    		try {
 	    		    	    			outToFile = new BufferedOutputStream( new FileOutputStream( saveFile), 8192 );
-	    		    	    			yuvImage.compressToJpeg(previewRect, 20, outToFile);
+	    		    	    			yuvImage.compressToJpeg(previewRect, 60, outToFile);
 	    		    	    		
 	    		    	    		} catch(FileNotFoundException e) {
 	    		    	    			Log.d(TAG,"File wasn't created properly: "+e.getMessage());

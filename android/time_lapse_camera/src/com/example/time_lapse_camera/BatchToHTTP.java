@@ -40,16 +40,18 @@ public class BatchToHTTP extends AsyncTask< URI, Void, Long> {
 		HttpContext localContext = new BasicHttpContext();
 		Log.i(TAG, "context initialized");
 		HttpPost httpPost = new HttpPost(HTTP_HOST);
+		
 		Log.i(TAG, "about to start HTTP");
 		try{
-			MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);	
+			MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+			
 			for( int i = 0; i < pictureData.length; i++ ){
 				
 				//date object is key
 				URI fileURI = pictureData[i];
 				Log.i(TAG,"image file set");
 				File imageFile = new File(fileURI);
-				entity.addPart("image",
+				entity.addPart("image"+i,
 						new FileBody(imageFile ));
 				Log.i(TAG,"all entities created");
 				
