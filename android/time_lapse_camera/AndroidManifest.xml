@@ -31,7 +31,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name="TimeLapsePictureTaker" android:permission="android.permission.CAMERA"></service>
+        <service android:name="TimeLapsePictureTaker" 
+            	 android:process=":remote"
+            	 android:permission="android.permission.CAMERA">
+            <intent-filter>
+            	<action android:name="com.mhzmaster.tlpt.START" />
+            	<action android:name="com.mhzmaster.tlpt.STOP" />
+            </intent-filter>
+        </service>
         
 
     </application>

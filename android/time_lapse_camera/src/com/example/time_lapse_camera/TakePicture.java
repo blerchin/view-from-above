@@ -34,16 +34,15 @@ public class TakePicture extends Activity{
 	
 	private TimeLapsePictureTaker mBoundPictureTaker;
 	private Boolean mPTBound;
-	
-    PowerManager pm;
-    WakeLock wl;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        setContentView(R.layout.activity_take_picture);
-        doBindPTService();
+        //setContentView(R.layout.activity_take_picture);
+        //doBindPTService();
+        
         
     }
     
@@ -55,7 +54,8 @@ public class TakePicture extends Activity{
     
     public void onDestroy() {
     	super.onDestroy();
-    	doUnbindPTService();
+    	
+    	//doUnbindPTService();
     }
     
     
@@ -68,7 +68,7 @@ public class TakePicture extends Activity{
             // service that we know is running in our own process, we can
             // cast its IBinder to a concrete class and directly access it.
             mBoundPictureTaker = ((TimeLapsePictureTaker.LocalBinder)service).getService();
-
+            
             // Tell the user about this for our demo.
             Toast.makeText(context, R.string.picture_taker_service_connected,
                     Toast.LENGTH_SHORT).show();
@@ -92,8 +92,8 @@ public class TakePicture extends Activity{
         // we know will be running in our own process (and thus won't be
         // supporting component replacement by other applications).
     	Log.d(TAG,"doBindPTService called");
-        bindService(new Intent(context, 
-                TimeLapsePictureTaker.class), mPTConnection, Context.BIND_AUTO_CREATE);
+        bindService(new Intent("TimeLapsePictureTaker.START"), mPTConnection, Context.BIND_AUTO_CREATE);
+         
         mPTBound = true;
         Log.d(TAG,"PT Service Bound");
     }

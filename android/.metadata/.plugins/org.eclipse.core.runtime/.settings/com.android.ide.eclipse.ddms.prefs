@@ -1,4 +1,4 @@
-#Fri Sep 28 02:05:26 PDT 2012
+#Tue Oct 02 23:41:42 PDT 2012
 threadPanel.stack.col0=119
 ddms.logcat.automonitor.userprompt=true
 ddms.logcat.auotmonitor.level=warn
@@ -11,7 +11,7 @@ com.android.ide.eclipse.ddms.explorer.time=36
 com.android.ide.eclipse.ddms.explorer.permissions=71
 com.android.ide.eclipse.ddms.explorer.info=71
 com.android.ide.eclipse.ddms.explorer.data=73
-logcat.view.colsize.Tag=101
+logcat.view.colsize.Tag=168
 logcat.view.colsize.Level=18
 emulatorControl.waypoint.name=68
 allocPanel.Col00=65

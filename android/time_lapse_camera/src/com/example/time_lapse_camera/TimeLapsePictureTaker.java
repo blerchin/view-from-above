@@ -2,15 +2,16 @@ package com.example.time_lapse_camera;
 
 import java.util.List;
 
-import android.app.Notification;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.os.Binder;
+import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -28,17 +29,23 @@ public class TimeLapsePictureTaker extends Service {
 	private Camera mCamera;
 	
 	
-	
 	private Context ctx = this;
+
+	private String INCOMING_START_ACTION = "com.mhzmaster.tlpt.START";
+	private String INCOMING_STOP_ACTION = "com.mhzmaster.tlpt.STOP";
 	
-	//Unique TimeLapsePictureTakerID to start and cancel
-	private int NOTIFICATION = R.string.picture_taker_started;
-	
-	/**
-     * Class for clients to access.  Because we know this service always
-     * runs in the same process as its clients, we don't need to deal with
-     * IPC.
-     */
+	private final Handler mHandler = new Handler();
+	private final BroadcastReceiver mIntentReceiver = new BroadcastReceiver() {
+	  @Override
+	  public void onReceive(Context context, Intent intent) {
+	    // Handle receiver
+	    String mAction = intent.getAction();
+
+	    if(mAction == INCOMING_STOP_ACTION) {
+	      stopSelf();
+	    }
+	  }
+	};
 
 	public class LocalBinder extends Binder {
         TimeLapsePictureTaker getService() {
@@ -51,12 +58,8 @@ public class TimeLapsePictureTaker extends Service {
 	@Override
 	public void onCreate() {
 		mNM = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-	    Notification note = new Notification(R.drawable.ic_launcher,getText(R.string.picture_taker_started), System.currentTimeMillis()); 
-	    //1st arg can be anything, but the ID for the message we are sending is just as well.
-	    
-	
+	    	
 		
-		initializeCameraPreview();
 		
 		//startForeground(R.string.picture_taker_started,note);
 	}
@@ -64,9 +67,15 @@ public class TimeLapsePictureTaker extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Log.i("TimeLapsePictureTaker", "Received start id " + startId + ": " + intent);
+		Log.i(TAG, "intent is:" + intent.getAction() );
+		if( intent.getAction().contains(INCOMING_START_ACTION) ) {
+			Log.i(TAG,"intent matches");
+			initializeCameraPreview();
+		
 		// We want this service to continue running until it is explicitly
         // stopped, so return sticky.
         return START_STICKY;
+        } else return START_NOT_STICKY;
 	}
 	@Override
 	public void onDestroy(){
@@ -78,9 +87,7 @@ public class TimeLapsePictureTaker extends Service {
 		mCamera.release();
 		wm.removeView(cp);
 		
-		//stopForeground(true);
-		
-        // Tell the user we stopped.
+		// Tell the user we stopped.
         Toast.makeText(this, R.string.picture_taker_stopped, Toast.LENGTH_SHORT).show();
 	}
 	
@@ -105,12 +112,21 @@ public class TimeLapsePictureTaker extends Service {
         return c; // returns null if camera is unavailable
     }
     
-    /**
-     * Show a notification while this service is running.
-     */
-
+    /** Check if this device has a camera */
+    private boolean checkCameraHardware(Context context) {
+        if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
+            // this device has a camera
+            return true;
+        } else {
+            // no camera on this device
+            return false;
+        }
+    }
+    
   public void initializeCameraPreview(){
 	    
+	  if (checkCameraHardware( this ) ){
+	  
 	    try{
 		    mCamera = getCameraInstance();
 		    cp = new CameraPreview(ctx,mCamera);
@@ -157,7 +173,7 @@ public class TimeLapsePictureTaker extends Service {
 	        Log.d(TAG, "Error setting camera preview: " + e.getMessage());
 	    }
 	    
-	    
+	  }
 	}
   
 

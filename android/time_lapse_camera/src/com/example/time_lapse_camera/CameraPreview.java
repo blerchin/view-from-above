@@ -15,6 +15,7 @@ import android.graphics.YuvImage;
 import android.hardware.Camera;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -61,7 +62,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     }
     
     /** Create a File for saving an image or video */
-    private static File getOutputMediaFile(int type, String timeStamp) throws IOException {
+    private static File getOutputMediaFile(int type, Date date) throws IOException {
         // To be safe, you should check that the SDCard is mounted
         // using Environment.getExternalStorageState() before doing this.
 
@@ -69,7 +70,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
                   Environment.DIRECTORY_PICTURES), "TimeLapseCamera");
         // This location works best if you want the created images to be shared
         // between applications and persist after your app has been uninstalled.
-
         // Create the storage directory if it does not exist
         if (! mediaStorageDir.exists()){
             if (! mediaStorageDir.mkdirs()){
@@ -77,16 +77,30 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
                 throw (IOException) new IOException().initCause(new Throwable( "cannot access storage device."));
             }
         }
-
+        File currentHourDir = new File( mediaStorageDir, DateFormat.format("yyyy-MM-dd_kk", date).toString() ); 
+        if( ! currentHourDir.exists() ) {
+        	if (! currentHourDir.mkdirs()){
+                Log.d(TAG, "failed to create directory");
+                throw (IOException) new IOException().initCause(new Throwable( "cannot access storage device."));
+            }
+        }
+        File currentMinDir = new File( mediaStorageDir, DateFormat.format("yyyy-MM-dd_kk-mm", date).toString() );
+        if( ! currentMinDir.exists() ) {
+        	if (! currentMinDir.mkdirs()){
+                Log.d(TAG, "failed to create directory");
+                throw (IOException) new IOException().initCause(new Throwable( "cannot access storage device."));
+            }
+        }
+        
         // Create a media file name
         
         File mediaFile;
         if (type == MEDIA_TYPE_IMAGE){
-            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-            "IMG_"+ timeStamp + ".jpg");
+            mediaFile = new File(currentMinDir.getPath() + File.separator +
+            "IMG_"+ getTimeStamp(date) + ".jpg");
         } else if(type == MEDIA_TYPE_VIDEO) {
-            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-            "VID_"+ timeStamp + ".mp4");
+            mediaFile = new File(currentMinDir.getPath() + File.separator +
+            "VID_"+ getTimeStamp(date) + ".mp4");
         } else {
             return null;
         }
@@ -169,7 +183,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
    		    	    		Date mDate = new Date();
    		    	    		try{
    		    	    				 
-	    		    	    		saveFile = getOutputMediaFile( MEDIA_TYPE_IMAGE, getTimeStamp(mDate) );
+	    		    	    		saveFile = getOutputMediaFile( MEDIA_TYPE_IMAGE, mDate );
 	    		    	    		
 	    		    	    		fileFailCounter=0;
 	    		    	    		
@@ -178,7 +192,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
    		    	    			
    		    	    		} finally {
 	    		    	    		OutputStream outToFile = null;
-	    		    	    		AsyncTask batchUpload = null;
+	    		    	    		AsyncTask<URI,Void,Long> batchUpload = null;
 	    		    	    		try {
 	    		    	    			outToFile = new BufferedOutputStream( new FileOutputStream( saveFile), 8192 );
 	    		    	    			yuvImage.compressToJpeg(previewRect, 60, outToFile);

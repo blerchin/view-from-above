@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="32" version="2.0">
+<workbench progressCount="35" version="2.0">
 <workbenchAdvisor/>
-<window height="1028" maximized="true" width="1636" x="52" y="64">
+<window height="1028" width="1636" x="109" y="22">
 <fastViewData fastViewLocation="1024"/>
 <perspectiveBar>
 <itemSize x="160"/>
@@ -19,7 +19,7 @@
 <coolItem id="org.eclipse.search.searchActionSet" itemType="typeToolBarContribution" x="106" y="22"/>
 <coolItem id="org.eclipse.ui.edit.text.actionSet.presentation" itemType="typeToolBarContribution" x="120" y="22"/>
 <coolItem id="org.eclipse.wst.xml.ui.perspective.NewFileToolBar" itemType="typeToolBarContribution" x="-1" y="-1"/>
-<coolItem id="org.eclipse.wst.xml.ui.design.DesignToolBar" itemType="typeToolBarContribution" x="-1" y="-1"/>
+<coolItem id="org.eclipse.wst.xml.ui.design.DesignToolBar" itemType="typeToolBarContribution" x="54" y="22"/>
 <coolItem id="group.nav" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.workbench.navigate" itemType="typeToolBarContribution" x="152" y="22"/>
 <coolItem id="group.editor" itemType="typeGroupMarker"/>
@@ -47,8 +47,6 @@
 <part id="6"/>
 <part id="7"/>
 <part id="8"/>
-<part id="9"/>
-<part id="10"/>
 </presentation>
 </folder>
 </info>
@@ -58,11 +56,11 @@
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="TakePicture.java" partName="TakePicture.java" path="/opt/view-from-above/android/time_lapse_camera/src/com/example/time_lapse_camera/TakePicture.java" title="TakePicture.java" tooltip="time_lapse_camera/src/com/example/time_lapse_camera/TakePicture.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/time_lapse_camera/src/com/example/time_lapse_camera/TakePicture.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="177" selectionOffset="4557" selectionTopPixel="1608"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1550" selectionTopPixel="42"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CameraPreview.java" partName="CameraPreview.java" path="/opt/view-from-above/android/time_lapse_camera/src/com/example/time_lapse_camera/CameraPreview.java" title="CameraPreview.java" tooltip="time_lapse_camera/src/com/example/time_lapse_camera/CameraPreview.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/time_lapse_camera/src/com/example/time_lapse_camera/CameraPreview.java"/>
-<editorState selectionHorizontalPixel="14" selectionLength="0" selectionOffset="6388" selectionTopPixel="165"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="246" selectionTopPixel="0"/>
 </editor>
 <editor id="com.android.ide.eclipse.editors.CommonXmlEditor" name="strings.xml" partName="strings.xml" path="/opt/view-from-above/android/time_lapse_camera/res/values/strings.xml" title="strings.xml" tooltip="time_lapse_camera/res/values/strings.xml" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/time_lapse_camera/res/values/strings.xml"/>
@@ -70,29 +68,20 @@
 <editor id="com.android.ide.eclipse.editors.CommonXmlEditor" name="styles.xml" partName="styles.xml" path="/opt/view-from-above/android/time_lapse_camera/res/values/styles.xml" title="styles.xml" tooltip="time_lapse_camera/res/values/styles.xml" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/time_lapse_camera/res/values/styles.xml"/>
 </editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="TimeLapsePictureTaker.java" partName="TimeLapsePictureTaker.java" path="/opt/view-from-above/android/time_lapse_camera/src/com/example/time_lapse_camera/TimeLapsePictureTaker.java" title="TimeLapsePictureTaker.java" tooltip="time_lapse_camera/src/com/example/time_lapse_camera/TimeLapsePictureTaker.java" workbook="DefaultEditorWorkbook">
+<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="TimeLapsePictureTaker.java" partName="TimeLapsePictureTaker.java" path="/opt/view-from-above/android/time_lapse_camera/src/com/example/time_lapse_camera/TimeLapsePictureTaker.java" title="TimeLapsePictureTaker.java" tooltip="time_lapse_camera/src/com/example/time_lapse_camera/TimeLapsePictureTaker.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/time_lapse_camera/src/com/example/time_lapse_camera/TimeLapsePictureTaker.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1565" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1906" selectionTopPixel="420"/>
 </editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Compression.java" partName="Compression.java" path="/opt/view-from-above/jsch-0.1.48/src/main/java/com/jcraft/jsch/jcraft/Compression.java" title="Compression.java" tooltip="jsch-0.1.48/src/main/java/com/jcraft/jsch/jcraft/Compression.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/jsch-0.1.48/src/main/java/com/jcraft/jsch/jcraft/Compression.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1919" selectionTopPixel="0"/>
-</editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ScpTo.java" partName="ScpTo.java" path="/opt/view-from-above/jsch-0.1.48/examples/ScpTo.java" title="ScpTo.java" tooltip="jsch-0.1.48/examples/ScpTo.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/jsch-0.1.48/examples/ScpTo.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1184" selectionTopPixel="0"/>
-</editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Sftp.java" partName="Sftp.java" path="/opt/view-from-above/jsch-0.1.48/examples/Sftp.java" title="Sftp.java" tooltip="jsch-0.1.48/examples/Sftp.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/jsch-0.1.48/examples/Sftp.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1391" selectionTopPixel="1289"/>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="BatchToHTTP.java" partName="BatchToHTTP.java" path="/opt/view-from-above/android/time_lapse_camera/src/com/example/time_lapse_camera/BatchToHTTP.java" title="BatchToHTTP.java" tooltip="time_lapse_camera/src/com/example/time_lapse_camera/BatchToHTTP.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/time_lapse_camera/src/com/example/time_lapse_camera/BatchToHTTP.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="696" selectionTopPixel="37"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="BatchToFTP.java" partName="BatchToFTP.java" path="/opt/view-from-above/android/time_lapse_camera/src/com/example/time_lapse_camera/BatchToFTP.java" title="BatchToFTP.java" tooltip="time_lapse_camera/src/com/example/time_lapse_camera/BatchToFTP.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/time_lapse_camera/src/com/example/time_lapse_camera/BatchToFTP.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="5" selectionOffset="807" selectionTopPixel="364"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="691" selectionTopPixel="10"/>
 </editor>
-<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="BatchToHTTP.java" partName="BatchToHTTP.java" path="/opt/view-from-above/android/time_lapse_camera/src/com/example/time_lapse_camera/BatchToHTTP.java" title="BatchToHTTP.java" tooltip="time_lapse_camera/src/com/example/time_lapse_camera/BatchToHTTP.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/time_lapse_camera/src/com/example/time_lapse_camera/BatchToHTTP.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1563" selectionTopPixel="394"/>
+<editor id="com.android.ide.eclipse.editors.manifest.ManifestEditor" name="AndroidManifest.xml" partName="time_lapse_camera Manifest" path="/opt/view-from-above/android/time_lapse_camera/AndroidManifest.xml" title="time_lapse_camera Manifest" tooltip="time_lapse_camera/AndroidManifest.xml" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/time_lapse_camera/AndroidManifest.xml"/>
 </editor>
 </editors>
 <views>
@@ -115,7 +104,7 @@
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
 <expanded>
 <category IMemento.internal.id="Errors"/>
-<category IMemento.internal.id="Warnings (20 items)"/>
+<category IMemento.internal.id="Warnings (2 items)"/>
 </expanded>
 <columnWidths org.eclipse.ui.ide.locationField="90" org.eclipse.ui.ide.markerType="90" org.eclipse.ui.ide.pathField="120" org.eclipse.ui.ide.resourceField="90" org.eclipse.ui.ide.severityAndDescriptionField="971"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
@@ -176,7 +165,9 @@
 <view id="com.android.ide.eclipse.ddms.views.EmulatorControlView" partName="Emulator Control">
 <viewState/>
 </view>
-<view id="org.eclipse.jdt.ui.SourceView" partName="Declaration"/>
+<view id="org.eclipse.jdt.ui.SourceView" partName="Declaration">
+<viewState/>
+</view>
 <view id="org.eclipse.jdt.ui.JavadocView" partName="Javadoc">
 <viewState/>
 </view>
@@ -426,159 +417,142 @@
 <navigationHistory>
 <editors>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/time_lapse_camera/src/com/example/time_lapse_camera/BatchToHTTP.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/time_lapse_camera/src/com/example/time_lapse_camera/TakePicture.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.android.ide.eclipse.editors.CommonXmlEditor" path="/time_lapse_camera/res/layout/activity_take_picture.xml"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/time_lapse_camera/src/com/example/time_lapse_camera/TimeLapsePictureTaker.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/time_lapse_camera/src/com/example/time_lapse_camera/CameraPreview.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/time_lapse_camera/src/com/example/time_lapse_camera/BatchToFTP.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.android.ide.eclipse.editors.manifest.ManifestEditor" path="/time_lapse_camera/AndroidManifest.xml"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/time_lapse_camera/src/com/example/time_lapse_camera/CameraPreview.java"/>
 </editors>
-<item historyLabel="BatchToHTTP.java" index="0">
-<position info="not_deleted" x="1499" y="0"/>
+<item historyLabel="TakePicture.java" index="1">
+<position info="not_deleted" x="1550" y="0"/>
+</item>
+<item historyLabel="time_lapse_camera Manifest" index="5"/>
+<item historyLabel="TakePicture.java" index="1">
+<position info="not_deleted" x="3327" y="0"/>
+</item>
+<item historyLabel="time_lapse_camera Manifest" index="5"/>
+<item historyLabel="TimeLapsePictureTaker.java" index="3">
+<position info="not_deleted" x="2155" y="0"/>
+</item>
+<item historyLabel="time_lapse_camera Manifest" index="5"/>
+<item historyLabel="TakePicture.java" index="1">
+<position info="not_deleted" x="3327" y="0"/>
+</item>
+<item historyLabel="TimeLapsePictureTaker.java" index="3">
+<position info="not_deleted" x="2155" y="0"/>
+</item>
+<item historyLabel="TimeLapsePictureTaker.java" index="3">
+<position info="not_deleted" x="772" y="0"/>
+</item>
+<item historyLabel="TimeLapsePictureTaker.java" index="3">
+<position info="not_deleted" x="956" y="7"/>
+</item>
+<item historyLabel="TimeLapsePictureTaker.java" index="3">
+<position info="not_deleted" x="772" y="0"/>
+</item>
+<item historyLabel="TimeLapsePictureTaker.java" index="3">
+<position info="not_deleted" x="1267" y="0"/>
+</item>
+<item historyLabel="TakePicture.java" index="1">
+<position info="not_deleted" x="3327" y="0"/>
+</item>
+<item historyLabel="TimeLapsePictureTaker.java" index="3">
+<position info="not_deleted" x="1267" y="0"/>
+</item>
+<item historyLabel="activity_take_picture.xml" index="2"/>
+<item historyLabel="TakePicture.java" index="1">
+<position info="not_deleted" x="3327" y="0"/>
+</item>
+<item historyLabel="time_lapse_camera Manifest" index="5"/>
+<item historyLabel="BatchToFTP.java" index="4">
+<position info="not_deleted" x="691" y="0"/>
+</item>
+<item historyLabel="time_lapse_camera Manifest" index="5"/>
+<item historyLabel="BatchToFTP.java" index="4">
+<position info="not_deleted" x="691" y="0"/>
+</item>
+<item historyLabel="TakePicture.java" index="1">
+<position info="not_deleted" x="3327" y="0"/>
+</item>
+<item historyLabel="BatchToFTP.java" index="4">
+<position info="not_deleted" x="691" y="0"/>
 </item>
 <item historyLabel="BatchToHTTP.java" index="0">
-<position info="not_deleted" x="1092" y="0"/>
+<position info="not_deleted" x="696" y="0"/>
 </item>
-<item historyLabel="BatchToHTTP.java" index="0">
-<position/>
+<item historyLabel="time_lapse_camera Manifest" index="5"/>
+<item historyLabel="TimeLapsePictureTaker.java" index="3">
+<position info="not_deleted" x="1267" y="0"/>
 </item>
-<item historyLabel="BatchToHTTP.java" index="0">
-<position info="not_deleted" x="1673" y="0"/>
+<item historyLabel="TimeLapsePictureTaker.java" index="3">
+<position info="not_deleted" x="1282" y="0"/>
 </item>
-<item historyLabel="BatchToHTTP.java" index="0">
-<position info="not_deleted" x="1743" y="0"/>
+<item historyLabel="TimeLapsePictureTaker.java" index="3">
+<position info="not_deleted" x="1319" y="6"/>
 </item>
-<item historyLabel="BatchToHTTP.java" index="0">
-<position info="not_deleted" x="1695" y="0"/>
+<item historyLabel="TimeLapsePictureTaker.java" index="3">
+<position info="not_deleted" x="1284" y="0"/>
 </item>
-<item historyLabel="BatchToHTTP.java" index="0">
-<position/>
+<item historyLabel="TimeLapsePictureTaker.java" index="3">
+<position info="not_deleted" x="1721" y="3"/>
 </item>
-<item historyLabel="BatchToHTTP.java" index="0">
-<position info="not_deleted" x="1945" y="0"/>
+<item historyLabel="TimeLapsePictureTaker.java" index="3">
+<position info="not_deleted" x="1284" y="0"/>
 </item>
-<item historyLabel="BatchToHTTP.java" index="0">
-<position/>
+<item historyLabel="TimeLapsePictureTaker.java" index="3">
+<position info="not_deleted" x="1279" y="0"/>
 </item>
-<item historyLabel="BatchToHTTP.java" index="0">
-<position info="not_deleted" x="1945" y="0"/>
+<item historyLabel="TimeLapsePictureTaker.java" index="3">
+<position info="not_deleted" x="1857" y="28"/>
 </item>
-<item historyLabel="BatchToHTTP.java" index="0">
-<position info="not_deleted" x="1975" y="0"/>
+<item historyLabel="TimeLapsePictureTaker.java" index="3">
+<position info="not_deleted" x="1909" y="0"/>
 </item>
-<item historyLabel="BatchToHTTP.java" index="0">
-<position info="not_deleted" x="2029" y="0"/>
+<item historyLabel="TimeLapsePictureTaker.java" index="3">
+<position info="not_deleted" x="1246" y="0"/>
 </item>
-<item historyLabel="BatchToHTTP.java" index="0">
-<position info="not_deleted" x="2075" y="0"/>
+<item historyLabel="CameraPreview.java" index="6">
+<position info="not_deleted" x="246" y="0"/>
 </item>
-<item historyLabel="BatchToHTTP.java" index="0">
-<position info="not_deleted" x="1666" y="0"/>
+<item historyLabel="TakePicture.java" index="1">
+<position info="not_deleted" x="3842" y="36"/>
 </item>
-<item historyLabel="TimeLapsePictureTaker.java" index="1">
-<position info="not_deleted" x="1565" y="0"/>
+<item historyLabel="TakePicture.java" index="1">
+<position info="not_deleted" x="1293" y="0"/>
 </item>
-<item historyLabel="CameraPreview.java" index="2">
-<position info="not_deleted" x="415" y="0"/>
+<item historyLabel="time_lapse_camera Manifest" index="5"/>
+<item historyLabel="TimeLapsePictureTaker.java" index="3">
+<position info="not_deleted" x="1850" y="0"/>
 </item>
-<item historyLabel="TimeLapsePictureTaker.java" index="1">
-<position info="not_deleted" x="1565" y="0"/>
+<item historyLabel="CameraPreview.java" index="6">
+<position info="not_deleted" x="246" y="0"/>
 </item>
-<item historyLabel="BatchToHTTP.java" index="0">
-<position info="not_deleted" x="1666" y="0"/>
+<item historyLabel="TakePicture.java" index="1">
+<position info="not_deleted" x="1293" y="0"/>
 </item>
-<item historyLabel="BatchToHTTP.java" index="0">
-<position info="not_deleted" x="1333" y="1"/>
+<item historyLabel="TimeLapsePictureTaker.java" index="3">
+<position info="not_deleted" x="1850" y="0"/>
 </item>
-<item historyLabel="BatchToHTTP.java" index="0">
-<position info="not_deleted" x="1182" y="0"/>
+<item historyLabel="TimeLapsePictureTaker.java" index="3">
+<position info="not_deleted" x="1455" y="0"/>
 </item>
-<item historyLabel="BatchToHTTP.java" index="0">
-<position info="not_deleted" x="1272" y="0"/>
+<item historyLabel="CameraPreview.java" index="6">
+<position info="not_deleted" x="246" y="0"/>
 </item>
-<item historyLabel="BatchToHTTP.java" index="0">
-<position info="not_deleted" x="800" y="0"/>
+<item historyLabel="TakePicture.java" index="1">
+<position info="not_deleted" x="1550" y="0"/>
 </item>
-<item historyLabel="BatchToHTTP.java" index="0">
-<position info="not_deleted" x="1822" y="0"/>
+<item historyLabel="TimeLapsePictureTaker.java" index="3">
+<position info="not_deleted" x="1455" y="0"/>
 </item>
-<item historyLabel="BatchToHTTP.java" index="0">
-<position info="not_deleted" x="1598" y="0"/>
+<item historyLabel="time_lapse_camera Manifest" index="5"/>
+<item historyLabel="TimeLapsePictureTaker.java" index="3">
+<position info="not_deleted" x="1906" y="0"/>
 </item>
-<item historyLabel="BatchToHTTP.java" index="0">
-<position/>
-</item>
-<item historyLabel="BatchToFTP.java" index="3">
-<position info="not_deleted" x="1411" y="0"/>
-</item>
-<item historyLabel="CameraPreview.java" index="2">
-<position info="not_deleted" x="843" y="0"/>
-</item>
-<item historyLabel="BatchToHTTP.java" index="0">
-<position/>
-</item>
-<item historyLabel="CameraPreview.java" index="2">
-<position info="not_deleted" x="6231" y="0"/>
-</item>
-<item historyLabel="BatchToFTP.java" index="3">
-<position info="not_deleted" x="807" y="5"/>
-</item>
-<item historyLabel="CameraPreview.java" index="2">
-<position/>
-</item>
-<item historyLabel="BatchToHTTP.java" index="0">
-<position info="not_deleted" x="1511" y="0"/>
-</item>
-<item historyLabel="BatchToFTP.java" index="3">
-<position info="not_deleted" x="807" y="5"/>
-</item>
-<item historyLabel="TimeLapsePictureTaker.java" index="1">
-<position info="not_deleted" x="1565" y="0"/>
-</item>
-<item historyLabel="BatchToFTP.java" index="3">
-<position info="not_deleted" x="807" y="5"/>
-</item>
-<item historyLabel="CameraPreview.java" index="2">
-<position/>
-</item>
-<item historyLabel="CameraPreview.java" index="2">
-<position/>
-</item>
-<item historyLabel="CameraPreview.java" index="2">
-<position/>
-</item>
-<item historyLabel="CameraPreview.java" index="2">
-<position info="not_deleted" x="6951" y="0"/>
-</item>
-<item historyLabel="CameraPreview.java" index="2">
-<position info="not_deleted" x="1090" y="0"/>
-</item>
-<item historyLabel="CameraPreview.java" index="2">
-<position info="not_deleted" x="7378" y="0"/>
-</item>
-<item historyLabel="BatchToHTTP.java" index="0">
-<position info="not_deleted" x="1511" y="0"/>
-</item>
-<item historyLabel="BatchToHTTP.java" index="0">
-<position info="not_deleted" x="1743" y="0"/>
-</item>
-<item historyLabel="CameraPreview.java" index="2">
-<position info="not_deleted" x="1145" y="0"/>
-</item>
-<item historyLabel="BatchToHTTP.java" index="0">
-<position info="not_deleted" x="1743" y="0"/>
-</item>
-<item historyLabel="CameraPreview.java" index="2">
-<position info="not_deleted" x="6178" y="9"/>
-</item>
-<item historyLabel="BatchToHTTP.java" index="0">
-<position info="not_deleted" x="948" y="0"/>
-</item>
-<item historyLabel="TimeLapsePictureTaker.java" index="1">
-<position info="not_deleted" x="1565" y="0"/>
-</item>
-<item historyLabel="CameraPreview.java" index="2">
-<position info="not_deleted" x="6388" y="0"/>
-</item>
-<item active="true" historyLabel="BatchToHTTP.java" index="0">
-<position info="not_deleted" x="948" y="0"/>
+<item historyLabel="time_lapse_camera Manifest" index="5"/>
+<item active="true" historyLabel="TimeLapsePictureTaker.java" index="3">
+<position info="not_deleted" x="1906" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -589,7 +563,6 @@
 <trimArea IMemento.internal.id="131072">
 <trimItem IMemento.internal.id="org.eclipse.ui.internal.ViewStack@6d642fd"/>
 <trimItem IMemento.internal.id="right"/>
-<trimItem IMemento.internal.id="org.eclipse.ui.internal.ViewStack@432c1d31"/>
 </trimArea>
 <trimArea IMemento.internal.id="128">
 <trimItem IMemento.internal.id="org.eclipse.ui.internal.WorkbenchWindow.topBar"/>
@@ -603,6 +576,12 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.android.ide.eclipse.editors.manifest.ManifestEditor" name="AndroidManifest.xml" tooltip="time_lapse_camera/AndroidManifest.xml">
+<persistable path="/time_lapse_camera/AndroidManifest.xml"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="BatchToFTP.java" tooltip="time_lapse_camera/src/com/example/time_lapse_camera/BatchToFTP.java">
+<persistable path="/time_lapse_camera/src/com/example/time_lapse_camera/BatchToFTP.java"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.systemExternalEditor" name="httpcomponents-client-4.2.1-bin.zip" tooltip="time_lapse_camera/libs/httpcomponents-client-4.2.1-bin.zip">
 <persistable path="/time_lapse_camera/libs/httpcomponents-client-4.2.1-bin.zip"/>
 </file>
@@ -611,9 +590,6 @@
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="DHG1.java" tooltip="jsch-0.1.48/src/main/java/com/jcraft/jsch/DHG1.java">
 <persistable path="/jsch-0.1.48/src/main/java/com/jcraft/jsch/DHG1.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="BatchToFTP.java" tooltip="time_lapse_camera/src/com/example/time_lapse_camera/BatchToFTP.java">
-<persistable path="/time_lapse_camera/src/com/example/time_lapse_camera/BatchToFTP.java"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Sftp.java" tooltip="jsch-0.1.48/examples/Sftp.java">
 <persistable path="/jsch-0.1.48/examples/Sftp.java"/>
@@ -644,9 +620,6 @@
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.PropertiesFileEditor" name="project.properties" tooltip="time_lapse_camera/project.properties">
 <persistable path="/time_lapse_camera/project.properties"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" name="proguard-project.txt" tooltip="time_lapse_camera/proguard-project.txt">
-<persistable path="/time_lapse_camera/proguard-project.txt"/>
 </file>
 </mruList>
 </workbench>

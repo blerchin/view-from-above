@@ -3,8 +3,6 @@ package com.example.time_lapse_camera;
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Date;
-import java.util.HashMap;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -12,7 +10,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
@@ -27,7 +24,7 @@ public class BatchToHTTP extends AsyncTask< URI, Void, Long> {
 	@Override
 	protected Long doInBackground(URI... pictureData) {
 		try{
-			HTTP_HOST = new URI("http://192.168.1.100:3000/upload");
+			HTTP_HOST = new URI("http://vfa.mhzmaster.com/upload");
 		} catch(URISyntaxException e){
 			Log.d(TAG, e.getMessage());
 		}
