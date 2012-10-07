@@ -1,15 +1,16 @@
 package com.example.time_lapse_camera;
 
-import java.util.List;
-
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
+import android.net.wifi.WifiManager;
+import android.net.wifi.WifiManager.WifiLock;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
@@ -26,6 +27,8 @@ public class TimeLapsePictureTaker extends Service {
 	
 	private CameraPreview cp;
 	private WindowManager wm;
+	private WifiManager wiManager;
+	private WifiLock wiLock;
 	private Camera mCamera;
 	
 	
@@ -33,19 +36,11 @@ public class TimeLapsePictureTaker extends Service {
 
 	private String INCOMING_START_ACTION = "com.mhzmaster.tlpt.START";
 	private String INCOMING_STOP_ACTION = "com.mhzmaster.tlpt.STOP";
+	private String INTERNAL_RESUME_ACTION = "com.mhzmaster.tlpt.RESUME";
 	
 	private final Handler mHandler = new Handler();
-	private final BroadcastReceiver mIntentReceiver = new BroadcastReceiver() {
-	  @Override
-	  public void onReceive(Context context, Intent intent) {
-	    // Handle receiver
-	    String mAction = intent.getAction();
-
-	    if(mAction == INCOMING_STOP_ACTION) {
-	      stopSelf();
-	    }
-	  }
-	};
+	
+	private BroadcastReceiver mIntentReceiver;
 
 	public class LocalBinder extends Binder {
         TimeLapsePictureTaker getService() {
@@ -57,9 +52,25 @@ public class TimeLapsePictureTaker extends Service {
 	
 	@Override
 	public void onCreate() {
-		mNM = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-	    	
-		
+		//int startResult = onStartCommand( new Intent(INTERNAL_RESUME_ACTION), 0, 0 );
+		//Log.d(TAG,"startResult: "+startResult);
+		 mIntentReceiver = new BroadcastReceiver() {
+			  @Override
+			  public void onReceive(Context context, Intent intent) {
+			    // Handle receiver
+			    String mAction = intent.getAction();
+			    Log.v(TAG,"received broadcast "+mAction);
+			    if(mAction.contains(INCOMING_STOP_ACTION) ) {
+			    	onDestroy();
+			    	stopSelf();
+			    
+			    }
+			  }
+			};
+		ctx.registerReceiver(mIntentReceiver, new IntentFilter(INCOMING_STOP_ACTION) );
+		wiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+		WifiLock wiLock = wiManager.createWifiLock(WifiManager.WIFI_MODE_FULL,"LockTag");
+		wiLock.acquire();
 		
 		//startForeground(R.string.picture_taker_started,note);
 	}
@@ -74,19 +85,22 @@ public class TimeLapsePictureTaker extends Service {
 		
 		// We want this service to continue running until it is explicitly
         // stopped, so return sticky.
-        return START_STICKY;
-        } else return START_NOT_STICKY;
+        } 
+		return START_REDELIVER_INTENT;		
+		
+		//else return START_NOT_STICKY;
 	}
 	@Override
 	public void onDestroy(){
 		// remove overlaid view
-		
+		Log.d(TAG,"camera released");
 		mCamera.setPreviewCallback(null);
 		mCamera.stopPreview();
 		
 		mCamera.release();
+		ctx.unregisterReceiver(mIntentReceiver);
 		wm.removeView(cp);
-		
+		wiLock.release();
 		// Tell the user we stopped.
         Toast.makeText(this, R.string.picture_taker_stopped, Toast.LENGTH_SHORT).show();
 	}
@@ -126,10 +140,12 @@ public class TimeLapsePictureTaker extends Service {
   public void initializeCameraPreview(){
 	    
 	  if (checkCameraHardware( this ) ){
-	  
+		
+		
 	    try{
 		    mCamera = getCameraInstance();
 		    cp = new CameraPreview(ctx,mCamera);
+		    Log.d(TAG,"CameraPreview Started");
 	    } catch (Exception e) {
 	    }
 	    
@@ -154,20 +170,24 @@ public class TimeLapsePictureTaker extends Service {
 		   Log.d(TAG,"issue while initializing CameraPreview");
 	   }
 	    SurfaceHolder mHolder = cp.getHolder();
-	            
+	    Log.d(TAG,"got SurfaceHolder");        
 	    mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 	    mHolder.setFormat(PixelFormat.TRANSPARENT); 
 	    
 	    
 	    try {
+	    	/*
 	    	mCamera.stopPreview();
+	    	
 	    	List<Camera.Size> previewSize = mCamera.getParameters().getSupportedPreviewSizes();
 	    	Camera.Size maxPreviewSize = previewSize.get(previewSize.size() - 1);
 	    	Log.d(TAG,"preview size set to "+maxPreviewSize.width+" x "+maxPreviewSize.height);		
 	    	
 	    	mCamera.getParameters().setPreviewSize(maxPreviewSize.width, maxPreviewSize.height);
-	        mCamera.setPreviewDisplay(mHolder);
-	        mCamera.startPreview();
+	        */
+	        //mCamera.setPreviewDisplay(mHolder);
+	        //mCamera.startPreview();
+	        
 	
 	    } catch (Exception e) {
 	        Log.d(TAG, "Error setting camera preview: " + e.getMessage());

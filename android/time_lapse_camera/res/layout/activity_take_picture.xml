@@ -16,15 +16,17 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_gravity="center"
+          android:onClick ="stopCapture"
           android:text="Stop Capture" />
 
-      <TextView
-          android:id="@+id/textView1"
+      <Button
+          android:id="@+id/button_start"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_gravity="center_horizontal"
-          android:layout_marginTop="100dp"
-          android:text="TextView" />
+          android:layout_marginTop="40dp"
+          android:onClick = "startCapture"
+          android:text="Start Capture" />
 
   </FrameLayout>
 </LinearLayout>

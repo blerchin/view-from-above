@@ -14,6 +14,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 
+import android.content.Context;
+import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -23,49 +25,51 @@ public class BatchToHTTP extends AsyncTask< URI, Void, Long> {
 	
 	@Override
 	protected Long doInBackground(URI... pictureData) {
-		try{
-			HTTP_HOST = new URI("http://vfa.mhzmaster.com/upload");
-		} catch(URISyntaxException e){
-			Log.d(TAG, e.getMessage());
-		}
-		
-		Log.d(TAG, "doing stuff in the background!");
 		
 		
-		HttpClient httpClient = new DefaultHttpClient();
-		Log.i(TAG, "client initialized");
-		HttpContext localContext = new BasicHttpContext();
-		Log.i(TAG, "context initialized");
-		HttpPost httpPost = new HttpPost(HTTP_HOST);
-		
-		Log.i(TAG, "about to start HTTP");
-		try{
-			MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+		//if(  == WifiManager.WIFI_STATE_ENABLED)
+			try{
+				HTTP_HOST = new URI("http://vfa.mhzmaster.com/upload");
+			} catch(URISyntaxException e){
+				Log.d(TAG, e.getMessage());
+			}
 			
-			for( int i = 0; i < pictureData.length; i++ ){
+			Log.d(TAG, "doing stuff in the background!");
+			
+			
+			HttpClient httpClient = new DefaultHttpClient();
+			Log.i(TAG, "client initialized");
+			HttpContext localContext = new BasicHttpContext();
+			Log.i(TAG, "context initialized");
+			HttpPost httpPost = new HttpPost(HTTP_HOST);
+			
+			Log.i(TAG, "about to start HTTP");
+			try{
+				MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
 				
-				//date object is key
-				URI fileURI = pictureData[i];
-				Log.i(TAG,"image file set");
-				File imageFile = new File(fileURI);
-				entity.addPart("image"+i,
-						new FileBody(imageFile ));
-				Log.i(TAG,"all entities created");
+				for( int i = 0; i < pictureData.length; i++ ){
+					
+					//date object is key
+					URI fileURI = pictureData[i];
+					Log.d(TAG,"image file set");
+					File imageFile = new File(fileURI);
+					entity.addPart("image"+i,
+							new FileBody(imageFile ));
+					
+				}
+			httpPost.setEntity(entity);
+			Log.i(TAG, "about to execute request");
+			HttpResponse response = httpClient.execute(httpPost, localContext);
+			Log.d(TAG, response.getStatusLine().toString());
+				
+							
+			} catch (Exception e) {
+				e.printStackTrace();
+				return Long.valueOf(0);
+			} finally{
 				
 			}
-		httpPost.setEntity(entity);
-		Log.i(TAG, "about to execute request");
-		HttpResponse response = httpClient.execute(httpPost, localContext);
-		Log.d(TAG, response.getStatusLine().toString());
-			
-						
-		} catch (Exception e) {
-			e.printStackTrace();
-			return Long.valueOf(0);
-		} finally{
-			
-		}
-		return Long.valueOf(1);
+			return Long.valueOf(1);
 	}
 
 }

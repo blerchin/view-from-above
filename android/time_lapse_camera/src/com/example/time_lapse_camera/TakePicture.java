@@ -19,10 +19,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
-import android.os.PowerManager;
-import android.os.PowerManager.WakeLock;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
 import android.widget.Toast;
 
 public class TakePicture extends Activity{
@@ -32,6 +31,9 @@ public class TakePicture extends Activity{
     public static final int MEDIA_TYPE_VIDEO = 2;
 	Context context = this;
 	
+	private static final String CAPTURE_INTENT_START = "com.mhzmaster.tlpt.START";
+	private static final String CAPTURE_INTENT_STOP = "com.mhzmaster.tlpt.STOP";
+	
 	private TimeLapsePictureTaker mBoundPictureTaker;
 	private Boolean mPTBound;
 
@@ -40,10 +42,18 @@ public class TakePicture extends Activity{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        //setContentView(R.layout.activity_take_picture);
+        setContentView(R.layout.activity_take_picture);
         //doBindPTService();
         
         
+    }
+    public void startCapture( View view ) {
+    	Intent startCapture = new Intent(CAPTURE_INTENT_START);
+    	context.startService( startCapture );
+    }
+    public void stopCapture( View view ) {
+    	Intent stopCapture = new Intent(CAPTURE_INTENT_STOP);
+    	context.sendBroadcast(stopCapture);
     }
     
     @Override

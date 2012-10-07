@@ -37,10 +37,10 @@
             <intent-filter>
             	<action android:name="com.mhzmaster.tlpt.START" />
             	<action android:name="com.mhzmaster.tlpt.STOP" />
-            </intent-filter>
+            </intent-filter> 
+            
         </service>
         
-
     </application>
     
   

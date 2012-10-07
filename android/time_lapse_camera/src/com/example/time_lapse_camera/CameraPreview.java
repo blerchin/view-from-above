@@ -9,11 +9,11 @@ import java.io.OutputStream;
 import java.net.URI;
 import java.util.Date;
 
+
 import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.hardware.Camera;
-import android.os.AsyncTask;
 import android.os.Environment;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -33,7 +33,8 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     private int picturesBatched;
     private URI[] picturesToBatch;
     private int BATCH_SIZE = 20;
-    
+      
+    private UploadQueueManager uploadQueue;
     
     public int picturesTaken;
     public boolean crashFlag = false; 
@@ -48,13 +49,14 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         
     }
     public void init(){
-    	Log.d(TAG, "init() called");
+    	//Log.d(TAG, "init() called");
     	 // Install a SurfaceHolder.Callback so we get notified when the
         // underlying surface is created and destroyed.
     	mHolder = getHolder();
     	mHolder.addCallback(this);
     	picturesTaken = 0;
     	picturesToBatch = new URI[BATCH_SIZE];
+    	uploadQueue = new UploadQueueManager();
     	
     	picturesBatched = 0;
     	
@@ -118,15 +120,9 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     }
 
     public void surfaceCreated(SurfaceHolder holder) {
-        Log.d(TAG,"surfaceCreated() called");
+        //Log.d(TAG,"surfaceCreated() called");
     	// The Surface has been created, now tell the camera where to draw the preview.
-        try{
-        	mCamera.setPreviewDisplay(mHolder);
-        	mCamera.startPreview();
-        } catch (IOException e){
-        	Log.d(TAG, "camera preview was not attached to mHolder");
-        }
-        setPreviewCallback();
+       
        
     }
 
@@ -138,11 +134,19 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
         // If your preview can change or rotate, take care of those events here.
         // Make sure to stop the preview before resizing or reformatting it.
-    	Log.d(TAG,"surfaceChanged called");
-        if (mHolder.getSurface() == null){
-          // preview surface does not exist
-          return;
-        }
+    	//Log.d(TAG,"surfaceChanged called");
+        //if (mHolder.getSurface() == null){
+	        try{
+	        	mCamera.setPreviewDisplay(mHolder);
+	        	mCamera.startPreview();
+	        } catch (IOException e){
+	        	Log.d(TAG, "camera preview was not attached to mHolder");
+	        }
+       	
+     	//}
+        
+	        setPreviewCallback();
+        
         
         // stop preview before making changes
         try {
@@ -170,7 +174,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
    					@Override
    					public void onPreviewFrame(byte[] data, Camera camera)  {
    						int fileFailCounter = 0;
-   						Log.d(TAG,"onPreviewFrame called; data length: "+data.length);
+   						//Log.d(TAG,"onPreviewFrame called; data length: "+data.length);
    						
    						
    						int previewFormat = camera.getParameters().getPreviewFormat();
@@ -178,7 +182,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
    		    	    		Camera.Size previewSize = camera.getParameters().getPreviewSize();
    		    	    		Rect previewRect = new Rect(0, 0, previewSize.width, previewSize.height);
    		    	    		YuvImage yuvImage = new YuvImage(data, previewFormat, previewSize.width, previewSize.height, null);
-   		    	    		Log.d(TAG,"yuvImage saved");
+   		    	    		//Log.d(TAG,"yuvImage saved");
    		    	    		File saveFile = null;
    		    	    		Date mDate = new Date();
    		    	    		try{
@@ -192,10 +196,9 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
    		    	    			
    		    	    		} finally {
 	    		    	    		OutputStream outToFile = null;
-	    		    	    		AsyncTask<URI,Void,Long> batchUpload = null;
 	    		    	    		try {
 	    		    	    			outToFile = new BufferedOutputStream( new FileOutputStream( saveFile), 8192 );
-	    		    	    			yuvImage.compressToJpeg(previewRect, 60, outToFile);
+	    		    	    			yuvImage.compressToJpeg(previewRect, 70, outToFile);
 	    		    	    		
 	    		    	    		} catch(FileNotFoundException e) {
 	    		    	    			Log.d(TAG,"File wasn't created properly: "+e.getMessage());
@@ -206,47 +209,28 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 	    		    	    					Log.d(TAG,"Took a picture!");
 	    		    	    					
 	    		    	    					if( picturesBatched < BATCH_SIZE) {
-	    		    	    						picturesToBatch[picturesBatched] = getFileURI(saveFile);
-	    		    	    						//pictureDates[picturesBatched] = mDate.toLocaleString();
-	    		    	    						//pictureURIsAsStrings[picturesBatched] = getFileURI(saveFile).toString(); 
+	    		    	    						picturesToBatch[picturesBatched] = getFileURI(saveFile); 
 	    		    	    						picturesBatched++;
-	    		    	    					}else if ( picturesBatched >= BATCH_SIZE ) {
-	    		    	    						
-	    		    	    						//batchUpload = new BatchToFTP().execute(picturesToBatch.clone() );
-	    		    	    						
-	    		    	    						batchUpload = new BatchToHTTP().execute( picturesToBatch  );
-	    		    	    						//It's OK if we lose a batch sometimes
-	    		    	    						picturesToBatch[0] = getFileURI(saveFile);
-	    		    	    						picturesBatched = 1;
+	    		    	    					} else {
+	    		    	    						uploadQueue.add(picturesToBatch);
+	    		    	    						picturesBatched = 0;
 	    		    	    					}
 	    		    	    				
-	    		    	    					
-	    		    	    					
-	    		    	    					if (batchUpload != null  
-	    		    	    						&& batchUpload.getStatus() == AsyncTask.Status.FINISHED 
-	    		    	    						&& batchUpload.get() == Long.valueOf(1) ) {
-		    		    	    					Log.d(TAG,"upload successful!");
-	    		    	    					} else if (batchUpload != null) {
-	    		    	    						Log.d(TAG,"upload status: "+ batchUpload.getStatus() );
-	    		    	    					}
-	    		    	    				} catch (IOException e) {
+	    		    	    				} catch (IOException ie) {
 	    		    	    					Log.d(TAG,"File did not close");
-	    		    	    				} catch (Exception e) {
-	    		    	    					Log.d(TAG,"something went wrong, probably while checking on FTP upload: "+e.getMessage());
-	    		    	    				}
+	    		    	    				} 
 	    		    	    				
 	    		    	    		
 	    				    	    	} else {
-	    				    	    		fileFailCounter++;
-	        		    	    			if(fileFailCounter > 21) {
-	        		    	    				crashFlag = true;
+	    				    	    		Log.d(TAG,"Preview Image did not save.");
 	        		    	    			}
-	    				    	    		Log.d(TAG, "Preview Image is in wrong format");
 	    				    	    	}
 	    		    	    		}
+			    	    	
+   		    	    		} else { 
+   		    	    			Log.d(TAG, "Preview Image is in wrong format");
    		    	    		}
    		    	    	}
-   					}
    				});            	 
 
        } catch (Exception e){

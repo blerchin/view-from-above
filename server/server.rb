@@ -1,16 +1,53 @@
 require 'rubygems'
 require 'sinatra'
+require 'json'
 
-image_list = Array.new
 STOR_PATH = Dir.pwd+'/public/data/'
+image_datafile_name = 'image_loc.json'
 
-get '/latest_img' do
-	if image_list.length > 0 then
-		return "<img src='data/#{image_list.last[:filename]}' />"
-	else
-		return "no images yet. Check back soon"
+image_loc = Array.new
+
+class Time 
+	def iso8601ms 
+		self.strftime('%Y-%m-%dT%H:%S.') + (self.to_f%1*1000).to_i.to_s + self.strftime('%z')
 	end
 end
+
+def array_from_disk_json( source_filename )
+	hash = Hash.new
+	File.open( source_filename, "r") { |f|
+		hash = JSON::parse(f.read)
+	}
+	return hash
+
+end
+
+def array_json_to_disk( array, dest_dir, dest_filename )
+	Dir.chdir(dest_dir)
+	File.open( dest_filename, "w" ) { |f|
+		f.puts array.to_json
+	}
+	
+end
+
+
+if File.exists?( STOR_PATH + image_datafile_name ) then
+	image_loc = array_from_disk_json( STOR_PATH + image_datafile_name )
+ end
+
+get '/latest_img' do
+	if( image_loc.length > 0 ) then
+		return "<img src='data/#{image_loc.last["filename"]}' />"
+	else 
+		return "no images uploaded yet. Check back later"
+	end
+end
+
+get '/img_loc' do
+	image_loc.to_json
+
+end
+
 
 post '/upload' do
 	puts "recieved a batch of images"
@@ -35,11 +72,14 @@ post '/upload' do
 			
 			img_file = File.new(my_filename, "w")
 			
-			image_list << {:filename => my_capture_time+"/"+my_filename, :time => my_capture_time }
-			
 			#puts "saved #{i[1][:filename]}"
 			img_file.write( img_data)
 			img_file.close
+			#add file path to hash & save to disk json
+			image_loc <<  	{"date" => my_timestamp.iso8601ms,
+							 "filename" => my_capture_time+"/"+my_filename}
+			#latest_time = my_timestamp.iso8601
+			array_json_to_disk( image_loc, STOR_PATH, image_datafile_name )
 		end
 		
 	end
