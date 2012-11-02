@@ -13,16 +13,16 @@
 		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="remove" key="selection"/>
+		<item value="" key="selection"/>
 		<list key="findhistory">
+			<item value="live"/>
+			<item value="image_datafile_name"/>
+			<item value="getcamera"/>
+			<item value="params"/>
+			<item value="took a picture"/>
+			<item value="took a pi"/>
 			<item value="remove"/>
 			<item value="moving"/>
-			<item value="too many"/>
-			<item value="batchoperations"/>
-			<item value="mintent"/>
-			<item value="wifilock"/>
-			<item value="log.d"/>
-			<item value="ondestroy"/>
 		</list>
 		<list key="replacehistory">
 			<item value="BATCH_SIZE"/>

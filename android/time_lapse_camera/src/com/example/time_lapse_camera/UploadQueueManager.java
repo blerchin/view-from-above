@@ -21,14 +21,16 @@ public class UploadQueueManager {
 	
 	LinkedList < AsyncTask<URI,Void,Long> > ongoingUploads;
 	
+	
 	UploadQueueManager() {
 		ongoingUploads = new LinkedList< AsyncTask<URI,Void,Long> >();
 		
 	}
 	
+	
 	public void add( URI[] batch){
 		if( prune() ) {
-			Log.e(TAG,"sending to HTTP");
+			Log.i(TAG,"sending to HTTP");
 			sendBatchToHTTP( batch, ongoingUploads );
 			
 		}  else {
@@ -67,16 +69,16 @@ public class UploadQueueManager {
 			if (uploader != null  
 				&& uploader.getStatus() == AsyncTask.Status.FINISHED 
 				&& uploader.get() == Long.valueOf(1) ) {
-				//Log.d(TAG,"upload successful; removing from queue");
+				Log.d(TAG,"upload successful; removing from queue");
 				return UPLOAD_STATUS_SUCCESSFUL;
 				
 			} else if(uploader != null
 					 && uploader.getStatus() == AsyncTask.Status.FINISHED
 					 && uploader.get() == Long.valueOf(0) ) { 
-				//Log.d(TAG,"upload unsuccessful; removing from queue");
+				Log.d(TAG,"upload unsuccessful; removing from queue");
 				return UPLOAD_STATUS_UNSUCCESSFUL;
 			} else {
-				//Log.d(TAG, "batch still in progress; leaving in queue");
+				Log.d(TAG, "batch still in progress; leaving in queue");
 				return UPLOAD_STATUS_IN_PROGRESS;
 			}
 		} catch (ExecutionException e) {

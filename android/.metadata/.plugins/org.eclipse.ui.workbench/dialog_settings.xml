@@ -3,8 +3,8 @@
 	<section name="FileSystemImportWizard">
 	</section>
 	<section name="WorkbenchPreferenceDialogSettings">
-		<item value="153" key="DIALOG_Y_ORIGIN"/>
-		<item value="374" key="DIALOG_X_ORIGIN"/>
+		<item value="123" key="DIALOG_Y_ORIGIN"/>
+		<item value="370" key="DIALOG_X_ORIGIN"/>
 	</section>
 	<section name="ZipFileImportWizard">
 	</section>
@@ -15,6 +15,16 @@
 			<item value="com.android.ide.eclipse.wizards.category"/>
 			<item value="org.eclipse.jdt.ui.java"/>
 		</list>
+	</section>
+	<section name="ShowViewDialog">
+		<item value="308" key="DIALOG_WIDTH"/>
+		<item value="238" key="DIALOG_Y_ORIGIN"/>
+		<item value="415" key="DIALOG_HEIGHT"/>
+		<item value="686" key="DIALOG_X_ORIGIN"/>
+		<item value="1|Lucida Grande|11.0|0|COCOA|1|LucidaGrande" key="DIALOG_FONT_NAME"/>
+	</section>
+	<section name="EditorSelectionDialog">
+		<item value="false" key="EditorSelectionDialog.STORE_ID_INTERNAL_EXTERNAL"/>
 	</section>
 	<section name="ImportExportAction">
 	</section>

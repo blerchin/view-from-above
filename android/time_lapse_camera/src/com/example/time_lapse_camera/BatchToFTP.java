@@ -28,7 +28,6 @@ public class BatchToFTP extends AsyncTask<URI, Void, Long> {
 		FTPClient fc = new FTPClient();
 		
 		try {
-			int reply;
 			fc.connect(FTP_SERVER,21);
 			Log.d(TAG, fc.getReplyString());
 			

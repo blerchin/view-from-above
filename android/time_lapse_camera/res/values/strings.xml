@@ -1,5 +1,4 @@
 <resources>
-
     <string name="app_name">time_lapse_camera</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
@@ -12,5 +11,6 @@
     <string name="ftp_upload_loc">mhzmaster.com/view_from_above_images</string>
     <string name="ftp_upload_user">view_from_above</string>
     <string name="ftp_upload_pass">avast-spoon-candid</string>
+    <string name="http_upload_path">http://vfa.mhzmaster.com/upload</string>
 
 </resources>

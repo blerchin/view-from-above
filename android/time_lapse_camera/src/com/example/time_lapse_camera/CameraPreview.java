@@ -127,7 +127,9 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     }
 
     public void surfaceDestroyed(SurfaceHolder holder) {
-        
+    	mCamera.setPreviewCallback(null);
+		mCamera.stopPreview();
+    	mCamera.release();   
         
     }
 
@@ -173,8 +175,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
            			
    					@Override
    					public void onPreviewFrame(byte[] data, Camera camera)  {
-   						int fileFailCounter = 0;
-   						//Log.d(TAG,"onPreviewFrame called; data length: "+data.length);
    						
    						
    						int previewFormat = camera.getParameters().getPreviewFormat();
@@ -189,7 +189,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
    		    	    				 
 	    		    	    		saveFile = getOutputMediaFile( MEDIA_TYPE_IMAGE, mDate );
 	    		    	    		
-	    		    	    		fileFailCounter=0;
 	    		    	    		
    		    	    		} catch(IOException e) {
    		    	    			Log.d(TAG,"Couldn't create media file");
@@ -198,7 +197,8 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 	    		    	    		OutputStream outToFile = null;
 	    		    	    		try {
 	    		    	    			outToFile = new BufferedOutputStream( new FileOutputStream( saveFile), 8192 );
-	    		    	    			yuvImage.compressToJpeg(previewRect, 70, outToFile);
+	    		    	    			yuvImage.compressToJpeg(previewRect, 50, outToFile);
+	    		    	    			yuvImage = null;
 	    		    	    		
 	    		    	    		} catch(FileNotFoundException e) {
 	    		    	    			Log.d(TAG,"File wasn't created properly: "+e.getMessage());
@@ -206,7 +206,8 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 	    		    	    			if(outToFile != null) {
 	    		    	    				try{
 	    		    	    					outToFile.close();
-	    		    	    					Log.d(TAG,"Took a picture!");
+	    		    	    					outToFile = null;
+	    		    	    					//Log.d(TAG,"Took a picture!");
 	    		    	    					
 	    		    	    					if( picturesBatched < BATCH_SIZE) {
 	    		    	    						picturesToBatch[picturesBatched] = getFileURI(saveFile); 

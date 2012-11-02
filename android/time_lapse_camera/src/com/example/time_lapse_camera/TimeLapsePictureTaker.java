@@ -36,11 +36,9 @@ public class TimeLapsePictureTaker extends Service {
 
 	private String INCOMING_START_ACTION = "com.mhzmaster.tlpt.START";
 	private String INCOMING_STOP_ACTION = "com.mhzmaster.tlpt.STOP";
-	private String INTERNAL_RESUME_ACTION = "com.mhzmaster.tlpt.RESUME";
-	
-	private final Handler mHandler = new Handler();
 	
 	private BroadcastReceiver mIntentReceiver;
+	//private Handler mRestartHandler; 
 
 	public class LocalBinder extends Binder {
         TimeLapsePictureTaker getService() {
@@ -61,46 +59,58 @@ public class TimeLapsePictureTaker extends Service {
 			    String mAction = intent.getAction();
 			    Log.v(TAG,"received broadcast "+mAction);
 			    if(mAction.contains(INCOMING_STOP_ACTION) ) {
-			    	onDestroy();
 			    	stopSelf();
 			    
 			    }
 			  }
 			};
+			
+			
+
+			
 		ctx.registerReceiver(mIntentReceiver, new IntentFilter(INCOMING_STOP_ACTION) );
 		wiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-		WifiLock wiLock = wiManager.createWifiLock(WifiManager.WIFI_MODE_FULL,"LockTag");
+		wiLock = wiManager.createWifiLock(WifiManager.WIFI_MODE_FULL,"LockTag");
 		wiLock.acquire();
 		
 		//startForeground(R.string.picture_taker_started,note);
 	}
 	
+	
+	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Log.i("TimeLapsePictureTaker", "Received start id " + startId + ": " + intent);
-		Log.i(TAG, "intent is:" + intent.getAction() );
-		if( intent.getAction().contains(INCOMING_START_ACTION) ) {
+		String intentAction = null;
+		try{
+			intentAction = intent.getAction();
+		} catch(NullPointerException e) {
+			
+		}
+		Log.i(TAG, "intent is:" + intentAction );
+		//when restarted as STICKY, no intent sent... so don't check
+		//if( intentAction.contains(INCOMING_START_ACTION) ) {
 			Log.i(TAG,"intent matches");
 			initializeCameraPreview();
-		
 		// We want this service to continue running until it is explicitly
         // stopped, so return sticky.
-        } 
-		return START_REDELIVER_INTENT;		
+        //} 
+		return START_STICKY;		
 		
 		//else return START_NOT_STICKY;
 	}
 	@Override
 	public void onDestroy(){
 		// remove overlaid view
-		Log.d(TAG,"camera released");
-		mCamera.setPreviewCallback(null);
-		mCamera.stopPreview();
 		
-		mCamera.release();
-		ctx.unregisterReceiver(mIntentReceiver);
+		
 		wm.removeView(cp);
+		Log.d(TAG,"view Removed");
 		wiLock.release();
+		Log.d(TAG,"WiLock Released");
+		
+		ctx.unregisterReceiver(mIntentReceiver);
+		
 		// Tell the user we stopped.
         Toast.makeText(this, R.string.picture_taker_stopped, Toast.LENGTH_SHORT).show();
 	}
@@ -138,15 +148,17 @@ public class TimeLapsePictureTaker extends Service {
     }
     
   public void initializeCameraPreview(){
-	    
+	  Log.d(TAG,"checking camera hardware");
 	  if (checkCameraHardware( this ) ){
 		
 		
 	    try{
+	    	
 		    mCamera = getCameraInstance();
 		    cp = new CameraPreview(ctx,mCamera);
 		    Log.d(TAG,"CameraPreview Started");
 	    } catch (Exception e) {
+	    	e.getStackTrace();
 	    }
 	    
 	    // Gnarly hack thanks to http://stackoverflow.com/questions/2386025/android-camera-without-preview

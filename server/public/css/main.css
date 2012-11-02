@@ -92,8 +92,168 @@ textarea {
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
+body {
+	font-family: Arial, sans-serif;
+	font-weight: 300;
+	color: #444;
+	font-size: 18px;
+	width: 100%;
+	height: 100%;
+	margin:0;
+}
+.header {
+	margin: 10px 0 0 0;
+	width: 100%;
+}
+.header .logo {
+	background-image: url("../img/whit-sky.svg");
+	background-repeat: no-repeat;
+	margin: 10px 0;
+	padding: 0;
+	height: 180px;
+	width: 550px;
+	float: left;
+	display: inline-block;
 
+}
+.header .nav {
+	min-width: 400px;
+	max-width: 600px;
+	display: inline-block;
+	margin-bottom: 0px;
+	margin-left: 15%;
+	
+}
+.header .nav.spacer {
+	max-width: 1px;
+	min-width: 1px;
+	width: 1px;
+	margin: 0;
+	height: 165px;
+	display: inline-block;
+}
+.header .nav ul li {
+	list-style: none;
+	font-family: "Helvetica Neue", Helvetica, sans-serif;
+	font-size: 20px;
+	font-weight: 100;
+	text-transform: uppercase;
+	display: inline-block;
+	float: left;
+	margin-right: 25px;
+	border-bottom: 1px solid #fff;
+	
+}
+.header .nav ul li a {
+	text-decoration: none;
+	color: #333;
+}
+.header .nav ul li:hover {
+	border-bottom: 1px solid #333;
+}
+.container{
+	position: relative;
+	overflow: visible;
+	max-width: 70%;
+	min-width: 320px;
+	margin: 10px auto;
+	clear:left;
+}
+.body.spacer {
+	width: 210px;
+	height: 10px;
+}
+.viewer {
+	position:relative;
+	margin: 0 20px 50px 0;
+	min-width: 640px;
+	min-height: 480px;
+	width: 100%;
+	overflow: visible;
+}
 
+.viewer svg {
+	position: absolute;
+	top:0;
+	left:0;
+	width:640px;
+	height:480px;
+	z-index: 11;
+}
+.viewer .share{
+	position: absolute;
+	top:1px;
+	right:1px;
+	z-index: 13;
+	height:50px;
+	padding: 5px;
+	overflow: visible;
+	background-color: #fff;
+	opacity: .7;
+}
+.viewer .share a.fb {
+	background-image: url(../img/fb.png);
+	width:20px;
+	height:20px;
+	margin-right: 5px;
+	display: inline-block;
+
+}
+.viewer .share a.tw {
+	background-image: url(../img/tw.png);
+	width:20px;
+	height:20px;
+	margin-right: 5px;
+	display: inline-block;
+}
+.viewer .share a.link {
+	background-repeat:no-repeat;
+	background-position-y: 3px;
+	background-image: url(../img/link.png);
+	width:20px;
+	height:20px;
+	margin-right: 5px;
+	display: inline-block;
+}
+.viewer .share a.pic {
+	background-repeat:no-repeat;
+	background-position-y: 3px;
+	background-image: url(../img/pic.png);
+	width:20px;
+	height:20px;
+	margin-right: 5px;
+	display: inline-block;
+}
+.viewer img {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 0;
+}
+.viewer img.preload {
+	
+}
+.viewer-controls {
+	overflow:visible;
+	height: 60px;
+}
+.description {
+	min-width: 350px;
+	width: 100%;
+	float:left;
+	margin: 20px 0 100px 0;
+
+}
+.time.display {
+	position: relative;
+	padding: 5px;
+	width: 200px;	
+	background-color: #fff;
+
+}
+#doc_photos {
+	height: 500px;
+}
 
 
 

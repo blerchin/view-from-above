@@ -1,2 +1,8 @@
+require 'rubygems'
+require 'sinatra'
 require './server.rb'
-run Sinatra::Application
+
+
+root = File.dirname(__FILE__)
+
+run TimeLapse
