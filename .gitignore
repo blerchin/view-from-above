@@ -1,0 +1,8 @@
+.DS_Store
+.metadata
+android/.metadata/*
+android/.*
+server/public/data
+server/data
+server/.*
+whitman_sky_applet/test_images

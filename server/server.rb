@@ -94,9 +94,7 @@ class ImageDataRetriever
 	end
 	
 	def from(start,limit = 100)
-		limit_time = Time.parse(start) + limit
-		sql = "SELECT Time,B64Path FROM Images WHERE Time > '#{start}' ORDER BY DESC Time LIMIT #{limit};"
-		#puts sql
+		sql = "SELECT Time,B64Path FROM Images WHERE Time > '#{start}' ORDER BY Time LIMIT #{limit.to_i};"
 		begin
 			@db.execute(sql)
 		rescue SQLite3::Exception => e

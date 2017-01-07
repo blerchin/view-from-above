@@ -369,6 +369,7 @@ function toImgLink( time) {
 		  if(window.focus) {newwindow.focus()}
       	  return false;
       }
+/*
 var share = $('<div class="share">share this image:<br/></div>').appendTo('.viewer')
 $('<a href="#" class="fb button"></a>').appendTo(share).click(function(){
 										 postToFbFeed() ;
@@ -383,6 +384,7 @@ $('<a href="#" class="pic button"></a>').appendTo(share).click(function(){
 										 	var newwindow = window.open(toImgLink(t),'View Current Image','width=640,height=480');
 										 	if(window.focus) {newwindow.focus()}
 										});
+										*/
 function include(arr,obj) {
     return (arr.indexOf(obj) != -1);
 }
